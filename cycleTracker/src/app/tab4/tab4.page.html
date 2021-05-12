@@ -1,7 +1,15 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Calendar</ion-title>
+    <!--Popover menu -->
+    <ion-buttons slot="end">
+      <ion-button (click)="viewPopover()">
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <!--Popover menu end-->
   </ion-toolbar>
+
 </ion-header>
 
 <ion-content>
@@ -13,10 +21,10 @@
 
   <div class="ion-padding">
 
-    <ion-calendar 
+    <ion-calendar
        [(ngModel)]="date"
        (onChange)="onChange($event)"
-       [type]="type" 
+       [type]="type"
        [format]="'YYYY-MM-DD'">
     </ion-calendar>
 
