@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      Zyklus
     </ion-title>
     <!--Popover menu -->
     <ion-buttons slot="end">
@@ -13,12 +13,25 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header id="test4-g" collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-item lines="none">
+  <circle-progress
+    [percent]="80"
+    [radius]="100"
+    [outerStrokeWidth]="16"
+    [showInnerStroke]="false"
+    [outerStrokeColor]="'#ad00c0'"
+    [animation]="true"
+    [showTitle]="false"
+    [showSubtitle]="false"
+    [imageSrc]="'../assets/icon/zyklus.png'"
+    [imageHeight]="50"
+    [imageWidth]="50"
+    [showImage]="true"
+  ></circle-progress>
+</ion-item>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
-</ion-content>
+<ion-item lines="none">
+  <ion-text>
+    Nächste Menstruation in X Tagen
+  </ion-text>
+</ion-item>
