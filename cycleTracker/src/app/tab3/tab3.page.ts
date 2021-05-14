@@ -20,6 +20,10 @@ export class Tab3Page implements OnInit{
     this.lineChartMethod();
   }
 
+  textTestMethod() {
+
+  }
+
   lineChartMethod() {
 
     this.lineChart = new Chart(this.lineCanvas.nativeElement, {
