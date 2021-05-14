@@ -20,6 +20,7 @@
     "@angular/platform-browser-dynamic": "~11.2.0",
     "@angular/router": "~11.2.0",
     "@ionic/angular": "^5.5.2",
+    "chart.js": "^3.2.1",
     "ion2-calendar": "^3.0.0-rc.0",
     "moment": "^2.29.1",
     "ng-circle-progress": "^1.6.0",
