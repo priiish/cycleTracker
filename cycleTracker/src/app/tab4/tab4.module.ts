@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -18,7 +18,6 @@ import { CalendarModule } from 'ion2-calendar';
     Tab4PageRoutingModule,
     CalendarModule
   ],
-  declarations: [Tab4Page],
-  providers: [{ provide: LOCALE_ID, useValue: 'de-DE' }]
+  declarations: [Tab4Page]
 })
 export class Tab4PageModule {}
