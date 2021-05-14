@@ -6,6 +6,8 @@ import { Tab1Page } from './tab1.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { Tab1PageRoutingModule } from './tab1-routing.module';
+import { NgCircleProgressModule } from 'ng-circle-progress';
+
 
 @NgModule({
   imports: [
@@ -13,6 +15,7 @@ import { Tab1PageRoutingModule } from './tab1-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
+    NgCircleProgressModule.forRoot(),
     Tab1PageRoutingModule
   ],
   declarations: [Tab1Page]

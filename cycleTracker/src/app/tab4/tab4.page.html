@@ -5,14 +5,12 @@
 </ion-header>
 
 <ion-content>
-
-  <ion-calendar 
+  <ion-calendar
        [(ngModel)]="date"
-       (onChange)="onChange($event)"
        [options]="options"
        [type]="type" 
        [format]="'YYYY-MM-DD'">
-    </ion-calendar>
+  </ion-calendar>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>
