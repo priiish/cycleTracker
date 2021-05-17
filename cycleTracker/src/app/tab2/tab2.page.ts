@@ -1,6 +1,10 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {PopoverController} from '@ionic/angular';
 import {PopoverViewerComponent} from '../popover-viewer/popover-viewer.component';
+import {StorageService} from "../service/storage.service";
+import {Record} from "../model/record";
+import {Mood} from "../model/mood.enum";
+import {Mens} from "../model/mens.enum";
 
 @Component({
   selector: 'app-tab2',
@@ -11,7 +15,7 @@ export class Tab2Page {
   /**
    * Popover initial in Tab2
    */
-  constructor(private popoverController: PopoverController) { }
+  constructor(private popoverController: PopoverController, private storageService: StorageService) { }
 
   async viewPopover() {
     const popover = await this.popoverController.create({
@@ -33,4 +37,17 @@ export class Tab2Page {
    * Popover initial in Tab2 end
    */
 
+
+
+  logCurrentCycle() {
+    this.storageService.getCurrentCycle().then(value => console.log(value));
+  }
+
+  logAllCycles() {
+    this.storageService.getCycles().then(value => console.log(value));
+  }
+
+  updateStorage() {
+    this.storageService.updateRecord(new Record(18759, Mood.none, Mens.m));
+  }
 }
