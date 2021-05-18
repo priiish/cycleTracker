@@ -5,7 +5,8 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  },  {
+  },
+  {
     path: 'help',
     loadChildren: () => import('./popover-viewer/help/help.module').then( m => m.HelpPageModule)
   },
