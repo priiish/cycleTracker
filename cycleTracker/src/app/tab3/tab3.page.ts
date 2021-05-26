@@ -3,6 +3,7 @@ import {PopoverController} from '@ionic/angular';
 import {PopoverViewerComponent} from '../popover-viewer/popover-viewer.component';
 import { Platform } from '@ionic/angular';
 import {StorageService} from '../service/storage.service';
+import {chartData} from '../model/chartData';
 
 import * as d3 from 'd3-selection';
 import * as d3Scale from 'd3-scale';
@@ -17,8 +18,19 @@ import * as d3Axis from 'd3-axis';
 })
 export class Tab3Page implements OnInit {
 
+  /*barData = [
+    { day: 'Montag', viewers: 2},
+    { day: 'Dienstag', viewers: 3, smiley: ':-)' },
+    { day: 'Mittwoch', viewers: 3, smiley: ':-)' },
+    { day: 'Donnerstag', viewers: 2, smiley: ':-)' },
+    { day: 'Freitag', viewers: 2, smiley: ':-)' },
+    { day: 'Samstag', viewers: 1, smiley: ':-)' },
+    { day: 'Sonntag', viewers: 1, smiley: ':-)' }
+  ];*/
+  //barData: chartData[];
+  barData = [];
   title = 'Dein Befinden während deines aktuellen Zyklus';
-  //subtitle = 'Viewers per day for';
+  subtitle = 'Wie geht es dir heute?';
   width: number;
   height: number;
   margin = { top: 60, right: 20, bottom: 130, left: 40 };
@@ -26,6 +38,9 @@ export class Tab3Page implements OnInit {
   y: any;
   svg: any;
   g: any;
+  today = new Date().getDate();
+  yesterday = new Date().toLocaleDateString();
+
 
   /**
    * Popover initial in Tab3
@@ -36,22 +51,31 @@ export class Tab3Page implements OnInit {
     this.height = 500 - this.margin.top - this.margin.bottom;
   }
 
-  barData = [
-    { day: 'Montag', viewers: 4, smiley: ':-)' },
-    { day: 'Dienstag', viewers: 3, smiley: ':-)' },
-    { day: 'Mittwoch', viewers: 3, smiley: ':-)' },
-    { day: 'Donnerstag', viewers: 2, smiley: ':-)' },
-    { day: 'Freitag', viewers: 2, smiley: ':-)' },
-    { day: 'Samstag', viewers: 3, smiley: ':-)' },
-    { day: 'Sonntag', viewers: 4, smiley: ':-)' }
-  ];
-
   ngOnInit() {
+    /*this.yesterday.setDate(this.today.getDate() - 1);
+    if (this.barData[0] == null) {
+      this.barData.push({
+        date: this.yesterday.toLocaleDateString(),
+        feeling: 3
+      });
+    }*/
+    console.log(this.today);
+    this.getTime();
+    this.getData();
     this.init();
     this.initAxes();
     this.drawAxes();
     this.drawChart();
   }
+
+  getTime() {
+
+  }
+
+  getData(): chartData[] {
+    return this.barData;
+  }
+
 
   init() {
     this.svg = d3.select('#lineChart') //former bar chart
@@ -66,8 +90,8 @@ export class Tab3Page implements OnInit {
   initAxes() {
     this.x = d3Scale.scaleBand().rangeRound([0, this.width]).padding(0.1);
     this.y = d3Scale.scaleLinear().rangeRound([this.height, 0]);
-    this.x.domain(this.barData.map((d) => d.day));
-    this.y.domain([0, d3Array.max(this.barData, (d) => d.viewers)]);
+    this.x.domain(this.barData.map((d) => d.date));
+    this.y.domain([0, d3Array.max(this.barData, (d) => d.feeling)]);
   }
 
   drawAxes() {
@@ -93,7 +117,7 @@ export class Tab3Page implements OnInit {
       .attr('text-anchor', 'end')
       .attr('fill', 'rgb(34,139,34)')
       .attr('font-size', '50')
-      .text('viewers');
+      .text('feeling');
   }
 
   drawChart() {
@@ -103,10 +127,26 @@ export class Tab3Page implements OnInit {
       .append('rect')
       .attr('class', 'line') //former bar
       .attr('fill', 'rgb(34,139,34)')
-      .attr('x', (d) => this.x(d.day))
-      .attr('y', (d) => this.y(d.viewers))
+      .attr('x', (d) => this.x(d.date))
+      .attr('y', (d) => this.y(d.feeling))
       .attr('width', this.x.bandwidth())
-      .attr('height', (d) => this.height - this.y(d.viewers));
+      .attr('height', (d) => this.height - this.y(d.feeling));
+  }
+
+  feelGood(): void {
+    if (this.barData.includes(this.today)) {
+      return;
+    } else {
+      this.barData.push({
+        date: this.today,
+        feeling: 3
+      });
+      this.getData();
+      //this.init();
+      this.initAxes();
+      this.drawAxes();
+      this.drawChart();
+    }
   }
 
   async viewPopover() {
