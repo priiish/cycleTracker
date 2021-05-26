@@ -133,21 +133,22 @@ export class Tab3Page implements OnInit {
       .attr('height', (d) => this.height - this.y(d.feeling));
   }
 
+  // muss angepasst werden, muss geprüft werden ob heutiger Tag bereits ausgewählt wurde, sonst überlappen sich die Charts
   feelGood(): void {
-    if (this.barData.includes(this.today)) {
-      return;
-    } else {
-      this.barData.push({
-        date: this.today,
-        feeling: 3
-      });
-      this.getData();
-      //this.init();
-      this.initAxes();
-      this.drawAxes();
-      this.drawChart();
-    }
-  }
+      /*if (this.barData.filter(this.today)) {
+        return;
+      } else {*/
+        this.barData.push({
+          date: this.today,
+          feeling: 3
+        });
+        this.getData();
+        //this.init();
+        this.initAxes();
+        this.drawAxes();
+        this.drawChart();
+      }
+ /* }*/
 
   async viewPopover() {
     const popover = await this.popoverController.create({
