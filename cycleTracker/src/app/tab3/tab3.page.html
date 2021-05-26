@@ -14,18 +14,15 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="ion-padding">
-  <ion-card>
+  <ion-card class="welcome-card">
     <ion-card-header>
-      Line Chart
+      <ion-card-subtitle>{{subtitle}}</ion-card-subtitle>
+      <ion-card-title>
+        {{title}}
+      </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-item>
-        <ion-text>Test</ion-text>
-        <canvas #lineCanvas></canvas>
-      </ion-item>
+      <div id="lineChart"></div>
     </ion-card-content>
   </ion-card>
-  </div>
-
 </ion-content>

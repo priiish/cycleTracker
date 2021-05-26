@@ -95,4 +95,15 @@ export class StorageService {
     });
     console.log(this.getUnixDay());
   }
+
+  // try to create function returning fake Record[] data
+ /* returnFakeData(): Record[] {
+    let data: Record[];
+    let begin: number = 1;
+    let okay = Mood;
+    let m = Mens;
+    data.fill(begin, okay, m);
+    return data;
+  }*/
+
 }
