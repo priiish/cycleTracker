@@ -1,4 +1,5 @@
 <ion-header>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button href="/tabs">
@@ -11,18 +12,20 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-icon class="upper-icon" name="earth"></ion-icon>
-  <div class="contact-data">
-    <div class="email-adresse">
-      <ion-icon class="mail-icon" name="mail"></ion-icon><p><a href="mailto:adresse@gmail.com">adresse@gmail.com</a></p>
-    </div>
-    <div class="telefon">
-      <ion-icon class="handy-icon" name="call"></ion-icon><p>+0000000000</p>
-    </div>
-    <div class="adresse">
-      <ion-icon class="home-icon" name="home"></ion-icon><p>BeispielAdresse</p>
-    </div>
-  </div>
+<ion-content class = "ion-content-contakt">
+  <div class = "contact__item">
 
+      <div class = "icon-contact"><ion-icon class="upper-icon" name="earth"></ion-icon></div>
+  <div class="contact-data">
+              <div class="contact-data-item">
+             <ion-icon class="mail-icon" name="mail"></ion-icon><div class = "contact__text"><a class="contact__mail" href="mailto:adresse@gmail.com">adresse@gmail.com</a></div>
+      </div>
+      <div class="contact-data-item">
+              <ion-icon class="handy-icon" name="call"></ion-icon><div class="contact__text">+0000000000</div>
+      </div>
+      <div class="contact-data-item">
+              <ion-icon class="home-icon" name="home"></ion-icon><div class = "contact__text">BeispielAdresse</div>
+      </div>
+  </div>
+  </div>
 </ion-content>

@@ -1,29 +1,25 @@
-ion-icon.upper-icon{
-  margin-top: 30px;
-  margin-left: 115px;
-  font-size: 100px;
+.ion-content-contakt {
+  width: 100%;
+  text-align: center;
 }
-div.contact-data{
-margin-left: 50px;
+.contact-data {
+  margin-top: 50px;
 }
-ion-icon.mail-icon{
-  float:left;
-  font-size: 20px;
-}
-ion-icon.handy-icon{
-  float:left;
-  font-size: 20px;
-}
-ion-icon.home-icon{
-  float:left;
-  font-size: 20px;
-}
-p{
-  margin-left: 30px;
-  font-size: 20px;
 
+.contact-data-item {
+
+  margin-bottom: 30px;
+  font-size: 25px;
+  color:#333333;
 }
-a{
+
+.contact__mail {
   text-decoration: none;
-  color:black;
+  color:#333333;
+}
+.upper-icon {
+  font-size: 80px;
+}
+.icon-contact {
+  margin-top: 40px;
 }
