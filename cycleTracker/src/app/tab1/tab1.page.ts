@@ -23,11 +23,15 @@ export class Tab1Page {
   cycleLength: number;
   riskOfPregnancy: number;
   constructor(private popoverController: PopoverController ,private storageService: StorageService) {
-    const cycleData = this.getCycleState('hallo', 'test', 'test');
-    this.cycleLength = cycleData[0];
-    this.cycleProgress = cycleData[1];
-    this.nextMenstruation = cycleData[2];
-    this.riskOfPregnancy = cycleData[3];
+    this.storageService.getCurrentCycle().then(value => {
+      const test = value.records;
+      console.log(test);
+      const cycleData = this.getCycleState('hallo', 'test', 'test');
+      this.cycleLength = cycleData[0];
+      this.cycleProgress = cycleData[1];
+      this.nextMenstruation = cycleData[2];
+      this.riskOfPregnancy = cycleData[3];
+    });
   }
 
   async viewPopover() {
@@ -67,7 +71,7 @@ export class Tab1Page {
     const cycleProgress = Math.round((cycleState / cycleDuration)*100);
     const nextMenstruation = cycleDuration - cycleState;
 
-    const riskOfPregnancy = 50;
+    const riskOfPregnancy = 88;
 
     return [cycleDuration,cycleProgress,nextMenstruation,riskOfPregnancy];
   }
