@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage-angular';
-import {Record} from "../model/record";
-import * as $ from "jquery";
-import {Cycle} from "../model/cycle";
-import {Mood} from "../model/mood.enum";
-import {Mens} from "../model/mens.enum";
+import {Record} from '../model/record';
+import * as $ from 'jquery';
+import {Cycle} from '../model/cycle';
+import {Mood} from '../model/mood.enum';
+import {Mens} from '../model/mens.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ import {Mens} from "../model/mens.enum";
 export class StorageService {
 
   constructor(private storage: Storage) {
-    this.initStorageFromJSON()
+    this.initStorageFromJSON();
   }
 
   /**
@@ -33,13 +33,13 @@ export class StorageService {
    * Updates a record in the database (adds, updates or deletes).
    */
   updateRecord(newRecord: Record): void {
-    this.storage.get('db').then((records : Record[]) => {
-      let oldRecord = records.find(r => r.date == newRecord.date);
+    this.storage.get('db').then((records: Record[]) => {
+      const oldRecord = records.find(r => r.date == newRecord.date);
       if(oldRecord) {
         records = records.filter(r => r !== oldRecord);
       }
       if(newRecord.mood !== Mood.none || newRecord.mens !== Mens.none) {
-        records.push(newRecord)
+        records.push(newRecord);
       }
       this.storage.set('db', records).then(value => console.log('Updated storage: ', value));
     });
@@ -59,17 +59,17 @@ export class StorageService {
       records.sort((a, b) => (a.date > b.date) ? 1 : -1);
 
       let result: Record[] = [];
-      let cycles: Cycle[] = [];
+      const cycles: Cycle[] = [];
       let lastRecord: Record = null;
 
-      let firstDate = records[0].date;
-      let lastDate = this.getUnixDay();
+      const firstDate = records[0].date;
+      const lastDate = this.getUnixDay();
       for(let i = firstDate; i <= lastDate; i++) {
-        let record = records.find(r => r.date == i);
+        const record = records.find(r => r.date == i);
 
         if (!lastRecord && record && result.length > 0) {
           cycles.push(new Cycle(result));
-          result = []
+          result = [];
         }
 
         if(record) {
@@ -84,7 +84,7 @@ export class StorageService {
     });
   }
 
-  initStorageFromJSON(): void {
+  private initStorageFromJSON(): void {
     this.storage.create().then((val) => {
       console.log('Create storage: ', val);
     });
