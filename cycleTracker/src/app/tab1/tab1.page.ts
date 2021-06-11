@@ -22,7 +22,7 @@ export class Tab1Page {
   nextMenstruation: number;
   cycleLength: number;
   riskOfPregnancy: number;
-  constructor(private popoverController: PopoverController ,private storageService: StorageService) {
+  constructor(private popoverController: PopoverController, private storageService: StorageService) {
     const cycleData = this.getCycleState('hallo', 'test', 'test');
     this.cycleLength = cycleData[0];
     this.cycleProgress = cycleData[1];
