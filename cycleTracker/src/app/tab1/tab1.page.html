@@ -16,7 +16,7 @@
 
 <ion-item lines="none">
   <circle-progress
-    [percent]="80"
+    [percent]= cycleProgress
     [radius]="100"
     [outerStrokeWidth]="16"
     [showInnerStroke]="false"
@@ -32,8 +32,13 @@
 </ion-item>
 
 <ion-item lines="none">
-  <ion-text id="feedback">
-    Nächste Menstruation in X Tagen
+  <ion-text>
+    Nächste Menstruation in {{nextMenstruation}} Tagen
   </ion-text>
 </ion-item>
-Ω
+<ion-item lines="none">
+  <ion-text>
+    Schwangerschaftsrisiko: {{riskOfPregnancy}}
+  </ion-text>
+</ion-item>
+
