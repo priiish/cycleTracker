@@ -5,7 +5,8 @@
 </ion-header>
 
 <ion-content>
-  <ion-calendar
+  <!-- Added Class and id to custom the calendar and choose the dark mode -->
+  <ion-calendar class = "calender" id = "calendar__edit"
        [(ngModel)]="date"
        [options]="options"
        [type]="type"
