@@ -138,19 +138,20 @@
   .contact__mail {
     color:#fff !important;
   }
+  ion-calendar.calender--black {
+    background-color: black;
+    button.days-btn p{
+      color:rgba(255,255,255,1) !important;
+    }
+    button.days-btn[disabled] p{
+      color:rgba(255,255,255,0.25) !important;
+    }
+    button.days-btn.next-month-day p{
+      color:rgba(255,255,255,0.25) !important;
+    }
+  }
 }
-ion-calendar.calender--black {
-  background-color: black;
-  button.days-btn p{
-    color:rgba(255,255,255,1) !important;
-  }
-  button.days-btn[disabled] p{
-    color:rgba(255,255,255,0.25) !important;
-  }
-  button.days-btn.next-month-day p{
-    color:rgba(255,255,255,0.25) !important;
-  }
-}
+
 
 @media (prefers-color-scheme: dark) {
   /*
