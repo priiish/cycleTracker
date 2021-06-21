@@ -55,7 +55,6 @@ export class Tab3Page implements OnInit {
   }
 
 
-
   getData(): chartData[] {
     return this.barData;
   }
@@ -179,9 +178,8 @@ export class Tab3Page implements OnInit {
 
    let node = document.createElement("div");
    node.setAttribute("id", "lineChart");
-   document.getElementById('ion-card').appendChild(node);
+   document.getElementById('ion-card').firstElementChild.append(node);
 
-   this.getCurrentDataDrawChart();
 
    if (this.barDataForTest.length === 0) {
      let randomFeeling: number;
