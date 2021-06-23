@@ -45,26 +45,27 @@ export class Tab3Page implements OnInit {
   }
 
   ngOnInit() {
-    this.getTime();
-    this.getData();
-    this.init();
-    this.initAxes();
-    this.drawAxes();
-    this.drawChart();
+    if (this.barData.length === 0) {
+      this.getData();
+      this.init();
+      this.initAxes();
+      this.drawAxes();
+      this.drawChart();
+    }
   }
 
-  getTime() {
-
-  }
 
   getData(): chartData[] {
     return this.barData;
   }
 
-  getTestData(): chartData[] {
-    return this.barDataForTest;
-  }
-
+ getCurrentDataDrawChart(): void {
+    this.init();
+   this.getData();
+   this.initAxes();
+   this.drawAxes();
+   this.drawChart();
+ }
 
   init() {
     this.svg = d3.select('#lineChart') //former bar chart
@@ -158,7 +159,6 @@ export class Tab3Page implements OnInit {
             dateMonth: this.today + "." + this.month
           });
           this.getData();
-          //this.init();
           this.initAxes();
           this.drawAxes();
           this.drawChart();
@@ -170,29 +170,41 @@ export class Tab3Page implements OnInit {
  }
 
  createTestData() {
-    this.barData = [];
-    let randomFeeling: number;
-    let testDay: number = this.today - 1;
-    let testMonth: number = this.month;
-    let testDayMonth: string;
+  let chart = document.getElementById('lineChart');
+  chart.firstChild.removeChild(chart.firstChild.firstChild);
+  chart.removeChild(chart.firstChild);
+   chart.remove();
 
-    for (let i = 7; i > 0; i--) {
-      randomFeeling = Math.floor(Math.random() * 4) + 1;
-      testDay = testDay + 1;
-      testDayMonth = testDay + "." + testMonth;
-      this.barDataForTest.push({
-        date: testDay,
-        month: testMonth,
-        feeling: randomFeeling,
-        dateMonth: testDayMonth
-    });
+
+   let node = document.createElement("div");
+   node.setAttribute("id", "lineChart");
+   document.getElementById('ion-card').firstElementChild.append(node);
+
+
+   if (this.barDataForTest.length === 0) {
+     let randomFeeling: number;
+     let testDay: number = this.today - 1;
+     let testMonth: number = this.month;
+     let testDayMonth: string;
+
+     for (let i = 7; i > 0; i--) {
+       randomFeeling = Math.floor(Math.random() * 3) + 1;
+       testDay = testDay + 1;
+       testDayMonth = testDay + "." + testMonth;
+       this.barDataForTest.push({
+         date: testDay,
+         month: testMonth,
+         feeling: randomFeeling,
+         dateMonth: testDayMonth
+       });
+     }
    }
    this.barData = this.barDataForTest;
-   console.log("passiert etwas?" + JSON.stringify(this.barData));
-   this.getData();
-   this.initAxes();
-   this.drawAxes();
-   this.drawChart();
+   console.log("Test Daten: " + JSON.stringify(this.barData));
+  this.getCurrentDataDrawChart();
+   this.barData.length = 0;
+   this.barDataForTest.length = 0;
+
  }
 
   async viewPopover() {
