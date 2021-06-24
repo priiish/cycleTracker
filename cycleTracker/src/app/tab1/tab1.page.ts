@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {NavController} from '@ionic/angular';
 import {PopoverController} from '@ionic/angular';
 import {PopoverViewerComponent} from '../popover-viewer/popover-viewer.component';
-import {StorageService} from '../service/storage.service';
+import {AnalysisService} from '../service/analysis.service';
 import {Record} from '../model/record';
 import {Mood} from '../model/mood.enum';
 import {Mens} from '../model/mens.enum';
@@ -19,18 +19,19 @@ export class Tab1Page {
    * Popover initial in Tab1
    */
   cycleProgress: number;
+  cycleProgressCss: number;
   nextMenstruation: number;
   cycleLength: number;
-  riskOfPregnancy: number;
-  constructor(private popoverController: PopoverController ,private storageService: StorageService) {
-    this.storageService.getCurrentCycle().then(value => {
-      const test = value.records;
-      console.log(test);
-      const cycleData = this.getCycleState('hallo', 'test', 'test');
-      this.cycleLength = cycleData[0];
+  riskOfPregnancy: string;
+  // eslint-disable-next-line max-len
+  constructor(private popoverController: PopoverController ,private analysisService: AnalysisService) {
+    this.analysisService.getAnalysisInfo().then(value => {
+      const cycleData = this.getCycleState(value.lastCycleStart, value.averageCycleLength);
+      this.cycleLength = value.averageCycleLength;
       this.cycleProgress = cycleData[1];
       this.nextMenstruation = cycleData[2];
-      this.riskOfPregnancy = cycleData[3];
+      this.riskOfPregnancy = value.fertility;
+      this.cycleProgressCss = 440 - (440 * this.cycleProgress) / 100;
     });
   }
 
@@ -43,7 +44,7 @@ export class Tab1Page {
     });
 
     popover.onDidDismiss().then((result) => {
-      console.log(result.data);
+
     });
 
 
@@ -60,20 +61,24 @@ export class Tab1Page {
    * Nehme Zyklusbeginn und Ende
    * Berechne Daten für die Visualisierung
    */
-  getCycleState(start, end, date){
-    const cycleStart = new Date('2021.06.01');
-    const cycleEnd = new Date('2021.06.28');
-    const currentDay = new Date('2021.06.10');
+  getCycleState(cycleStart, cycleLength){
+    console.log(cycleStart);
+    cycleStart = '06.06.2021';
+    cycleStart = new Date(cycleStart);
+    /**calculate cycleEnd*/
+    const cycleEnd = new Date(cycleStart);
+    cycleEnd.setDate(cycleEnd.getDate() + cycleLength);
+    console.log(cycleStart);
+    console.log(cycleEnd);
+    const currentDay = new Date();
 
     const cycleDuration = Math.abs((+cycleStart - +cycleEnd)/ (60*60*24*1000));
     const cycleState = Math.abs((+cycleStart - +currentDay) / (60*60*24*1000));
 
     const cycleProgress = Math.round((cycleState / cycleDuration)*100);
-    const nextMenstruation = cycleDuration - cycleState;
+    const nextMenstruation = Math.round(cycleDuration - cycleState);
 
-    const riskOfPregnancy = 88;
-
-    return [cycleDuration,cycleProgress,nextMenstruation,riskOfPregnancy];
+    return [cycleDuration,cycleProgress,nextMenstruation];
   }
   /**
    * Ziehe Zyklus Beginn und Ende aus Database

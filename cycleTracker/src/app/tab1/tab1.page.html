@@ -21,11 +21,13 @@
         <circle cx="70" cy="70" r="70"></circle>
         <circle cx="70" cy="70" r="70" style="stroke-dashoffset:{{cycleProgressCss}}"></circle>
       </svg>
+      <!-- Kleinen Text einfügen?
       <div class="number">
         <h2>{{cycleProgress}}<span>%</span></h2>
       </div>
+      -->
     </div>
-    <h3 class="text"> Nächste Menstruation: {{nextMenstruation}}</h3>
+    <h3 class="text" style="text-align:center"> Nächste Menstruation in <br/> {{nextMenstruation}} Tagen</h3>
     <h3 class="text"> Fruchtbarkeit: {{riskOfPregnancy}}</h3>
   </div>
 </ion-content>
