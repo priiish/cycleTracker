@@ -14,31 +14,20 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-item lines="none">
-  <circle-progress
-    [percent]= cycleProgress
-    [radius]="100"
-    [outerStrokeWidth]="16"
-    [showInnerStroke]="false"
-    [outerStrokeColor]="'#ad00c0'"
-    [animation]="true"
-    [showTitle]="false"
-    [showSubtitle]="false"
-    [imageSrc]="'../assets/icon/zyklus.png'"
-    [imageHeight]="50"
-    [imageWidth]="50"
-    [showImage]="true"
-  ></circle-progress>
-</ion-item>
+<ion-content>
+  <div class="box">
+    <div class="percent">
+      <svg>
+        <circle cx="70" cy="70" r="70"></circle>
+        <circle cx="70" cy="70" r="70" style="stroke-dashoffset:{{cycleProgressCss}}"></circle>
+      </svg>
+      <div class="number">
+        <h2>{{cycleProgress}}<span>%</span></h2>
+      </div>
+    </div>
+    <h3 class="text"> Nächste Menstruation: {{nextMenstruation}}</h3>
+    <h3 class="text"> Fruchtbarkeit: {{riskOfPregnancy}}</h3>
+  </div>
+</ion-content>
 
-<ion-item lines="none">
-  <ion-text>
-    Nächste Menstruation in {{nextMenstruation}} Tagen
-  </ion-text>
-</ion-item>
-<ion-item lines="none">
-  <ion-text>
-    Schwangerschaftsrisiko: {{riskOfPregnancy}}
-  </ion-text>
-</ion-item>
 
