@@ -1,0 +1,12 @@
+ion-toggle {
+  --background: white;
+  --background-checked: white;
+
+  --handle-background: grey;
+  --handle-background-checked: grey;
+
+  width: 50px;
+  height: 15px;
+  --handle-width: 20px;
+  --handle-height: 20px;
+}
