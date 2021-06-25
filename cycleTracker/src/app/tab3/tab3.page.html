@@ -20,24 +20,35 @@
         {{title}}
       </ion-card-title>
     </ion-card-header>
-    <ion-card-content>
-      <div id="lineChart"></div>
+    <ion-card-content id="ion-card">
       <ion-grid>
         <ion-row>
             <ion-card-subtitle class="ion-align-items-center">{{subtitle}}</ion-card-subtitle>
         </ion-row>
         <ion-row>
-          <ion-col size="4">
-            <ion-button size= "small" color="success" id="good" (click)="feelGood()">Success</ion-button>
+          <ion-col size="3">
+            <ion-button size= "small" color="success" id="good" (click)="feelGood()">
+              <ion-icon name="happy-outline"></ion-icon>
+            </ion-button>
           </ion-col>
-          <ion-col size="4">
-            <ion-button size= "small" color="warning" id="ok">Warning</ion-button>
+          <ion-col size="3">
+            <ion-button size= "small" color="warning" id="ok">
+              <ion-icon name="sad-outline"></ion-icon>
+            </ion-button>
           </ion-col>
-          <ion-col size="4">
-            <ion-button size= "small" color="danger" id="bad">Danger</ion-button>
+          <ion-col size="3">
+            <ion-button size= "small" color="danger" id="bad">
+              <ion-icon name="skull-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col size="3">
+            <ion-button size="small" color="light" (click)="createTestData()">
+              <ion-icon name="beaker-outline"></ion-icon>
+            </ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>
+      <div id="lineChart"></div>
     </ion-card-content>
   </ion-card>
 </ion-content>

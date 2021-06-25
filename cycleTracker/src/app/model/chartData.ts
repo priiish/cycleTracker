@@ -1,9 +1,14 @@
 export class chartData {
-  date: Date;
+  date: number;
+  month: number;
   feeling: number;
+  dateMonth: string;
 
-  constructor(date: Date, feeling: number) {
+
+  constructor(date: number, month: number, feeling: number, dateMonth: string) {
     this.date = date;
+    this.month = month;
     this.feeling = feeling;
+    this.dateMonth = dateMonth;
   }
 }
