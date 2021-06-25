@@ -62,15 +62,16 @@ export class Tab1Page {
    * Berechne Daten für die Visualisierung
    */
   getCycleState(cycleStart, cycleLength){
+    cycleStart = cycleStart * 86400000;
     console.log(cycleStart);
-    cycleStart = '06.06.2021';
     cycleStart = new Date(cycleStart);
     /**calculate cycleEnd*/
     const cycleEnd = new Date(cycleStart);
     cycleEnd.setDate(cycleEnd.getDate() + cycleLength);
+    const currentDay = new Date();
     console.log(cycleStart);
     console.log(cycleEnd);
-    const currentDay = new Date();
+    console.log(currentDay);
 
     const cycleDuration = Math.abs((+cycleStart - +cycleEnd)/ (60*60*24*1000));
     const cycleState = Math.abs((+cycleStart - +currentDay) / (60*60*24*1000));
