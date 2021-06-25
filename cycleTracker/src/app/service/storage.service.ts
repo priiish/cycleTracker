@@ -46,6 +46,20 @@ export class StorageService {
   }
 
   /**
+   * Updates a settings entry (key-value-pair)
+   */
+  updateSetting(key: string, value: string): void {
+    this.storage.set(key, value).then(value => console.log('Updated storage: ', key, " = ", value));
+  }
+
+  /**
+   * Returns a settings entry (key-value-pair)
+   */
+  getSetting(key: string): Promise<string> {
+    return this.storage.get(key);
+  }
+
+  /**
    * Returns the current Unix day (e.g. 01.01.1970 = 0, 17.05.2021 = 18764).
    */
   getUnixDay(): number {
