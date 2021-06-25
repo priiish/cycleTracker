@@ -147,6 +147,10 @@ export class Tab3Page implements OnInit {
       let node = document.createElement("div");
       node.setAttribute("id", "lineChart");
       document.getElementById('ion-card').firstElementChild.append(node);
+    } else if (!chart) {
+      let node = document.createElement("div");
+      node.setAttribute("id", "lineChart");
+      document.getElementById('ion-card').firstElementChild.append(node);
     }
 
 
@@ -205,7 +209,7 @@ export class Tab3Page implements OnInit {
      let node = document.createElement("div");
      node.setAttribute("id", "lineChart");
      document.getElementById('ion-card').firstElementChild.append(node);
-   } else {
+   } else if (!chart) {
      let node = document.createElement("div");
      node.setAttribute("id", "lineChart");
      document.getElementById('ion-card').firstElementChild.append(node);
@@ -234,13 +238,13 @@ export class Tab3Page implements OnInit {
 
    setTimeout(() => {
      this.checked = false;
-     chart.remove();
+     document.getElementById('lineChart').remove();
      this.disablePin = false;
      this.barData.length = 0;
      this.barDataForTest.length = 0;
      console.log("Test Daten nach 0 setzen: " + JSON.stringify(this.barData));
      console.log("Daten nach 0 setzen: " + JSON.stringify(this.barData));
-   }, 3000);
+   }, 5000);
 
  }
 
