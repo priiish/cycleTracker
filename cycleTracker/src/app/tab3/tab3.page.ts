@@ -168,10 +168,12 @@ export class Tab3Page implements OnInit {
      this.getCurrentDataDrawChart();
     } else {
       for (let i = 0; i < this.barData.length; i++) {
-        if (this.barData[i].date == this.today && this.barData[i].month == this.month) {
+        if (this.barData[i].date == this.today && this.barData[i].month == this.month && this.barData[i].feeling == 3) {
           this.n = true;
           console.log("Datum bereits enthalten" + JSON.stringify(this.barData));
-          //break;
+          alert("Sie haben heute bereits so abgestimmt.");
+        } else if (this.barData[i].date == this.today && this.barData[i].month == this.month && this.barData[i].feeling != 3) {
+          this.barData[i].feeling = 3;
         } else {
           console.log("Datum nicht enthalten" + JSON.stringify(this.barData));
           this.barData.push({
@@ -184,9 +186,125 @@ export class Tab3Page implements OnInit {
       }
       this.getCurrentDataDrawChart();
     }
-
-
  }
+
+  feelOkay(): void {
+    let chart = document.getElementById('lineChart');
+
+    if (chart && chart.firstChild && this.barData.length !== 0) {
+      console.log("Case 1");
+      chart.firstChild.removeChild(chart.firstChild.firstChild);
+      chart.removeChild(chart.firstChild);
+      chart.remove();
+
+      let node = document.createElement("div");
+      node.setAttribute("id", "lineChart");
+      document.getElementById('ion-card').firstElementChild.append(node);
+    } else if (chart && this.barData.length !== 0) {
+      console.log("Case 2");
+      chart.remove();
+
+      let node = document.createElement("div");
+      node.setAttribute("id", "lineChart");
+      document.getElementById('ion-card').firstElementChild.append(node);
+    } else if (!chart) {
+      let node = document.createElement("div");
+      node.setAttribute("id", "lineChart");
+      document.getElementById('ion-card').firstElementChild.append(node);
+    }
+
+    console.log(JSON.stringify(this.barData));
+
+    if (this.barData.length === 0) {
+      console.log("Array leer" + JSON.stringify(this.barData));
+      this.barData.push({
+        date: this.today,
+        month: this.month,
+        feeling: 2,
+        dateMonth: this.today + "." + this.month
+      });
+      console.log("Array initial befüllt" + JSON.stringify(this.barData));
+      this.getCurrentDataDrawChart();
+    } else {
+      for (let i = 0; i < this.barData.length; i++) {
+        if (this.barData[i].date == this.today && this.barData[i].month == this.month && this.barData[i].feeling == 2) {
+          this.n = true;
+          console.log("Datum bereits enthalten" + JSON.stringify(this.barData));
+          alert('Sie haben heute bereits so abgestimmt.');
+        } else if (this.barData[i].date == this.today && this.barData[i].month == this.month && this.barData[i].feeling != 2) {
+          this.barData[i].feeling = 2;
+        } else {
+          console.log("Datum nicht enthalten" + JSON.stringify(this.barData));
+          this.barData.push({
+            date: this.today,
+            month: this.month,
+            feeling: 2,
+            dateMonth: this.today + "." + this.month
+          });
+        }
+      }
+      this.getCurrentDataDrawChart();
+    }
+  }
+
+  feelSad(): void {
+    let chart = document.getElementById('lineChart');
+
+    if (chart && chart.firstChild && this.barData.length !== 0) {
+      console.log("Case 1");
+      chart.firstChild.removeChild(chart.firstChild.firstChild);
+      chart.removeChild(chart.firstChild);
+      chart.remove();
+
+      let node = document.createElement("div");
+      node.setAttribute("id", "lineChart");
+      document.getElementById('ion-card').firstElementChild.append(node);
+    } else if (chart && this.barData.length !== 0) {
+      console.log("Case 2");
+      chart.remove();
+
+      let node = document.createElement("div");
+      node.setAttribute("id", "lineChart");
+      document.getElementById('ion-card').firstElementChild.append(node);
+    } else if (!chart) {
+      let node = document.createElement("div");
+      node.setAttribute("id", "lineChart");
+      document.getElementById('ion-card').firstElementChild.append(node);
+    }
+
+    console.log(JSON.stringify(this.barData));
+
+    if (this.barData.length === 0) {
+      console.log("Array leer" + JSON.stringify(this.barData));
+      this.barData.push({
+        date: this.today,
+        month: this.month,
+        feeling: 1,
+        dateMonth: this.today + "." + this.month
+      });
+      console.log("Array initial befüllt" + JSON.stringify(this.barData));
+      this.getCurrentDataDrawChart();
+    } else {
+      for (let i = 0; i < this.barData.length; i++) {
+        if (this.barData[i].date == this.today && this.barData[i].month == this.month && this.barData[i].feeling == 1) {
+          this.n = true;
+          console.log("Datum bereits enthalten" + JSON.stringify(this.barData));
+          alert('Sie haben heute bereits so abgestimmt.');
+        } else if (this.barData[i].date == this.today && this.barData[i].month == this.month && this.barData[i].feeling != 1) {
+          this.barData[i].feeling = 1;
+        } else {
+          console.log("Datum nicht enthalten" + JSON.stringify(this.barData));
+          this.barData.push({
+            date: this.today,
+            month: this.month,
+            feeling: 1,
+            dateMonth: this.today + "." + this.month
+          });
+        }
+      }
+      this.getCurrentDataDrawChart();
+    }
+  }
 
  createTestData() {
    this.disablePin = true;
