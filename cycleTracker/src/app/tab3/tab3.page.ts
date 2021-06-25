@@ -18,17 +18,9 @@ import * as d3Axis from 'd3-axis';
 })
 export class Tab3Page implements OnInit {
 
-  /*barData = [
-    { day: 'Montag', viewers: 2},
-    { day: 'Dienstag', viewers: 3, smiley: ':-)' },
-    { day: 'Mittwoch', viewers: 3, smiley: ':-)' },
-    { day: 'Donnerstag', viewers: 2, smiley: ':-)' },
-    { day: 'Freitag', viewers: 2, smiley: ':-)' },
-    { day: 'Samstag', viewers: 1, smiley: ':-)' },
-    { day: 'Sonntag', viewers: 1, smiley: ':-)' }
-  ];*/
-  //barData: chartData[];
-  barData = [];
+  barDataForTest: chartData[] = [];
+  barData: chartData[] = [];
+  //barData = [];
   title = 'Dein Befinden während deines aktuellen Zyklus';
   subtitle = 'Wie geht es dir heute?';
   width: number;
@@ -39,7 +31,8 @@ export class Tab3Page implements OnInit {
   svg: any;
   g: any;
   today = new Date().getDate();
-  yesterday = new Date().toLocaleDateString();
+  month = new Date().getMonth();
+  private n: boolean;
 
 
   /**
@@ -52,30 +45,27 @@ export class Tab3Page implements OnInit {
   }
 
   ngOnInit() {
-    /*this.yesterday.setDate(this.today.getDate() - 1);
-    if (this.barData[0] == null) {
-      this.barData.push({
-        date: this.yesterday.toLocaleDateString(),
-        feeling: 3
-      });
-    }*/
-    console.log(this.today);
-    this.getTime();
-    this.getData();
-    this.init();
-    this.initAxes();
-    this.drawAxes();
-    this.drawChart();
+    if (this.barData.length === 0) {
+      this.getData();
+      this.init();
+      this.initAxes();
+      this.drawAxes();
+      this.drawChart();
+    }
   }
 
-  getTime() {
-
-  }
 
   getData(): chartData[] {
     return this.barData;
   }
 
+ getCurrentDataDrawChart(): void {
+    this.init();
+   this.getData();
+   this.initAxes();
+   this.drawAxes();
+   this.drawChart();
+ }
 
   init() {
     this.svg = d3.select('#lineChart') //former bar chart
@@ -90,7 +80,7 @@ export class Tab3Page implements OnInit {
   initAxes() {
     this.x = d3Scale.scaleBand().rangeRound([0, this.width]).padding(0.1);
     this.y = d3Scale.scaleLinear().rangeRound([this.height, 0]);
-    this.x.domain(this.barData.map((d) => d.date));
+    this.x.domain(this.barData.map((d) => d.dateMonth));
     this.y.domain([0, d3Array.max(this.barData, (d) => d.feeling)]);
   }
 
@@ -111,7 +101,7 @@ export class Tab3Page implements OnInit {
       .attr('font-size', '30')
       .append('text')
       .attr('class', 'axis-title')
-      .attr('transform', 'rotate(-90)')
+      .attr('transform', 'rotate(-30)')
       .attr('y', 6)
       .attr('dy', '0.71em')
       .attr('text-anchor', 'end')
@@ -127,28 +117,95 @@ export class Tab3Page implements OnInit {
       .append('rect')
       .attr('class', 'line') //former bar
       .attr('fill', 'rgb(34,139,34)')
-      .attr('x', (d) => this.x(d.date))
+      .attr('x', (d) => this.x(d.dateMonth))
       .attr('y', (d) => this.y(d.feeling))
       .attr('width', this.x.bandwidth())
       .attr('height', (d) => this.height - this.y(d.feeling));
   }
 
-  // muss angepasst werden, muss geprüft werden ob heutiger Tag bereits ausgewählt wurde, sonst überlappen sich die Charts
+  /**
+   * Function adds date + value = 3 to barData array and chart. If current date is already included in the array,
+   * the date will not be added to the chart.
+   */
   feelGood(): void {
-      /*if (this.barData.filter(this.today)) {
-        return;
-      } else {*/
-        this.barData.push({
-          date: this.today,
-          feeling: 3
-        });
-        this.getData();
-        //this.init();
-        this.initAxes();
-        this.drawAxes();
-        this.drawChart();
+
+    console.log(JSON.stringify(this.barData));
+    if (this.barData.length === 0) {
+      console.log("Array leer" + JSON.stringify(this.barData));
+      this.barData.push({
+        date: this.today,
+        month: this.month,
+        feeling: 3,
+        dateMonth: this.today + "." + this.month
+      });
+      console.log("Array initial befüllt" + JSON.stringify(this.barData));
+      this.getData();
+      //this.init();
+      this.initAxes();
+      this.drawAxes();
+      this.drawChart();
+    } else {
+      for (let i = 0; i < this.barData.length; i++) {
+        if (this.barData[i].date == this.today && this.barData[i].month == this.month) {
+          this.n = true;
+          console.log("Datum bereits enthalten" + JSON.stringify(this.barData));
+          //break;
+        } else {
+          console.log("Datum nicht enthalten" + JSON.stringify(this.barData));
+          this.barData.push({
+            date: this.today,
+            month: this.month,
+            feeling: 3,
+            dateMonth: this.today + "." + this.month
+          });
+          this.getData();
+          this.initAxes();
+          this.drawAxes();
+          this.drawChart();
+        }
       }
- /* }*/
+    }
+
+
+ }
+
+ createTestData() {
+  let chart = document.getElementById('lineChart');
+  chart.firstChild.removeChild(chart.firstChild.firstChild);
+  chart.removeChild(chart.firstChild);
+   chart.remove();
+
+
+   let node = document.createElement("div");
+   node.setAttribute("id", "lineChart");
+   document.getElementById('ion-card').firstElementChild.append(node);
+
+
+   if (this.barDataForTest.length === 0) {
+     let randomFeeling: number;
+     let testDay: number = this.today - 1;
+     let testMonth: number = this.month;
+     let testDayMonth: string;
+
+     for (let i = 7; i > 0; i--) {
+       randomFeeling = Math.floor(Math.random() * 3) + 1;
+       testDay = testDay + 1;
+       testDayMonth = testDay + "." + testMonth;
+       this.barDataForTest.push({
+         date: testDay,
+         month: testMonth,
+         feeling: randomFeeling,
+         dateMonth: testDayMonth
+       });
+     }
+   }
+   this.barData = this.barDataForTest;
+   console.log("Test Daten: " + JSON.stringify(this.barData));
+  this.getCurrentDataDrawChart();
+   this.barData.length = 0;
+   this.barDataForTest.length = 0;
+
+ }
 
   async viewPopover() {
     const popover = await this.popoverController.create({
