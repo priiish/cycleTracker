@@ -34,6 +34,7 @@ export class Tab3Page implements OnInit {
   month = new Date().getMonth();
   private n: boolean;
   disablePin: boolean = false;
+  checked: boolean = false;
 
 
   /**
@@ -184,6 +185,8 @@ export class Tab3Page implements OnInit {
  }
 
  createTestData() {
+   this.disablePin = true;
+
    let chart = document.getElementById('lineChart');
 
    if (chart && chart.firstChild && this.barData.length !== 0) {
@@ -230,12 +233,14 @@ export class Tab3Page implements OnInit {
   this.getCurrentDataDrawChart();
 
    setTimeout(() => {
+     this.checked = false;
      chart.remove();
+     this.disablePin = false;
      this.barData.length = 0;
      this.barDataForTest.length = 0;
      console.log("Test Daten nach 0 setzen: " + JSON.stringify(this.barData));
      console.log("Daten nach 0 setzen: " + JSON.stringify(this.barData));
-   }, 5000);
+   }, 3000);
 
  }
 
