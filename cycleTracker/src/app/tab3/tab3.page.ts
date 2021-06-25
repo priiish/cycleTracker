@@ -107,7 +107,7 @@ export class Tab3Page implements OnInit {
       .attr('y', 6)
       .attr('dy', '0.71em')
       .attr('text-anchor', 'end')
-      .attr('fill', 'rgb(34,139,34)')
+      .attr('fill', 'rgb(255,192,203)')
       .attr('font-size', '50')
       .text('feeling');
   }
@@ -118,9 +118,16 @@ export class Tab3Page implements OnInit {
       .enter()
       .append('rect')
       .attr('class', 'line') //former bar
-      .attr('fill', 'rgb(34,139,34)')
       .attr('x', (d) => this.x(d.dateMonth))
       .attr('y', (d) => this.y(d.feeling))
+      .attr('fill', function (d) {
+        if (d.feeling == 1) {
+          return "#eb445a";
+        } else if (d.feeling == 2) {
+          return "#ffc409";
+        }
+        return "#2dd36f";
+      })
       .attr('width', this.x.bandwidth())
       .attr('height', (d) => this.height - this.y(d.feeling));
   }
