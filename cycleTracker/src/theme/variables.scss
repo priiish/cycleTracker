@@ -270,6 +270,21 @@
     --ion-item-background: #000000;
 
     --ion-card-background: #1c1c1d;
+    /* For Smartphones Calendar*/
+    ion-calendar.calender--black {
+      background-color: black;
+      button.days-btn p{
+        color:rgba(255,255,255,1) !important;
+      }
+      button.days-btn[disabled] p{
+        color:rgba(255,255,255,0.25) !important;
+      }
+      button.days-btn.next-month-day p{
+        color:rgba(255,255,255,0.25) !important;
+      }
+    }
+
+
   }
 
   .ios ion-modal {
