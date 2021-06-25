@@ -33,6 +33,7 @@ export class Tab3Page implements OnInit {
   today = new Date().getDate();
   month = new Date().getMonth();
   private n: boolean;
+  disablePin: boolean = false;
 
 
   /**
@@ -45,7 +46,7 @@ export class Tab3Page implements OnInit {
   }
 
   ngOnInit() {
-    if (this.barData.length === 0) {
+    if (this.barData.length != 0) {
       this.getData();
       this.init();
       this.initAxes();
@@ -128,8 +129,28 @@ export class Tab3Page implements OnInit {
    * the date will not be added to the chart.
    */
   feelGood(): void {
+    let chart = document.getElementById('lineChart');
+    if (chart && chart.firstChild && this.barData.length !== 0) {
+      console.log("Case 1");
+      chart.firstChild.removeChild(chart.firstChild.firstChild);
+      chart.removeChild(chart.firstChild);
+      chart.remove();
+
+      let node = document.createElement("div");
+      node.setAttribute("id", "lineChart");
+      document.getElementById('ion-card').firstElementChild.append(node);
+    } else if (chart && this.barData.length !== 0) {
+      console.log("Case 2");
+      chart.remove();
+
+      let node = document.createElement("div");
+      node.setAttribute("id", "lineChart");
+      document.getElementById('ion-card').firstElementChild.append(node);
+    }
+
 
     console.log(JSON.stringify(this.barData));
+
     if (this.barData.length === 0) {
       console.log("Array leer" + JSON.stringify(this.barData));
       this.barData.push({
@@ -139,11 +160,7 @@ export class Tab3Page implements OnInit {
         dateMonth: this.today + "." + this.month
       });
       console.log("Array initial befüllt" + JSON.stringify(this.barData));
-      this.getData();
-      //this.init();
-      this.initAxes();
-      this.drawAxes();
-      this.drawChart();
+     this.getCurrentDataDrawChart();
     } else {
       for (let i = 0; i < this.barData.length; i++) {
         if (this.barData[i].date == this.today && this.barData[i].month == this.month) {
@@ -158,30 +175,39 @@ export class Tab3Page implements OnInit {
             feeling: 3,
             dateMonth: this.today + "." + this.month
           });
-          this.getData();
-          this.initAxes();
-          this.drawAxes();
-          this.drawChart();
         }
       }
+      this.getCurrentDataDrawChart();
     }
 
 
  }
 
  createTestData() {
-  let chart = document.getElementById('lineChart');
-  chart.firstChild.removeChild(chart.firstChild.firstChild);
-  chart.removeChild(chart.firstChild);
-   chart.remove();
+   let chart = document.getElementById('lineChart');
 
+   if (chart && chart.firstChild && this.barData.length !== 0) {
+     console.log("Case 1");
+     chart.firstChild.removeChild(chart.firstChild.firstChild);
+     chart.removeChild(chart.firstChild);
+     chart.remove();
 
-   let node = document.createElement("div");
-   node.setAttribute("id", "lineChart");
-   document.getElementById('ion-card').firstElementChild.append(node);
+     let node = document.createElement("div");
+     node.setAttribute("id", "lineChart");
+     document.getElementById('ion-card').firstElementChild.append(node);
+   } else if (chart && this.barData.length !== 0) {
+     console.log("Case 2");
+     chart.remove();
 
+     let node = document.createElement("div");
+     node.setAttribute("id", "lineChart");
+     document.getElementById('ion-card').firstElementChild.append(node);
+   } else {
+     let node = document.createElement("div");
+     node.setAttribute("id", "lineChart");
+     document.getElementById('ion-card').firstElementChild.append(node);
+   }
 
-   if (this.barDataForTest.length === 0) {
      let randomFeeling: number;
      let testDay: number = this.today - 1;
      let testMonth: number = this.month;
@@ -198,12 +224,18 @@ export class Tab3Page implements OnInit {
          dateMonth: testDayMonth
        });
      }
-   }
    this.barData = this.barDataForTest;
-   console.log("Test Daten: " + JSON.stringify(this.barData));
+   console.log("Test Daten vor 0 setzen: " + JSON.stringify(this.barData));
+   console.log("Daten vor 0 setzen: " + JSON.stringify(this.barData));
   this.getCurrentDataDrawChart();
-   this.barData.length = 0;
-   this.barDataForTest.length = 0;
+
+   setTimeout(() => {
+     chart.remove();
+     this.barData.length = 0;
+     this.barDataForTest.length = 0;
+     console.log("Test Daten nach 0 setzen: " + JSON.stringify(this.barData));
+     console.log("Daten nach 0 setzen: " + JSON.stringify(this.barData));
+   }, 5000);
 
  }
 
