@@ -18,11 +18,6 @@ import * as d3Axis from 'd3-axis';
 })
 export class Tab3Page implements OnInit {
 
-  barDataForTest: chartData[] = [];
-  barData: chartData[] = [];
-  barDataSaved: chartData[] = [];
-  filteredBarData: chartData[] = [];
-  //barData = [];
   title = 'Dein Befinden während deines aktuellen Zyklus';
   subtitle = 'Wie geht es dir heute?';
   width: number;
@@ -36,8 +31,11 @@ export class Tab3Page implements OnInit {
   month: number = new Date().getMonth() + 1;
   private n: boolean;
   disablePin: boolean = false;
-  checked: boolean = false;
   selectedMonth: number;
+  barDataForTest: chartData[] = [];
+  barData: chartData[] = [];
+  barDataSaved: chartData[] = [];
+  filteredBarData: chartData[] = [];
 
 
   /**
@@ -72,35 +70,8 @@ export class Tab3Page implements OnInit {
  }
 
  initializeFilter() {
-   /*switch(this.selectedMonth) {
-     case 1:
-       this.selectedMonth = 1;
-       break;
-     case 2:
-       this.selectedMonth = 2;
-       break;
-     case 3:
-       this.selectedMonth = 3;
-       break;
-     case 4:
-       this.selectedMonth = 4;
-       break;
-     case 5:
-       this.selectedMonth = 5;
-       break;
-     case 6:
-       this.selectedMonth = 6;
-       break;
-     case 7:
-       this.selectedMonth = 7;
-       break;
-   }*/
-   let chart = document.getElementById('lineChart');
 
-   /*console.log(typeof this.barData[0].month);
-   console.log(typeof this.barData[0].month.toLocaleString());
-   console.log(typeof this.selectedMonth);
-   console.log(typeof monthNumber);*/
+   let chart = document.getElementById('lineChart');
 
    if (this.selectedMonth != 0) {
      for (let i = 0; i < this.barData.length; i++) {
@@ -240,6 +211,7 @@ export class Tab3Page implements OnInit {
    * the date will not be added to the chart.
    */
   feelGood(): void {
+    this.disablePin = true;
     let chart = document.getElementById('lineChart');
     if (chart && chart.firstChild && this.barData.length !== 0) {
       console.log("Case 1");
@@ -296,9 +268,13 @@ export class Tab3Page implements OnInit {
       }
       this.getCurrentDataDrawChart();
     }
+    setTimeout(() => {
+      this.disablePin = false;
+    }, 3000);
  }
 
   feelOkay(): void {
+    this.disablePin = true;
     let chart = document.getElementById('lineChart');
 
     if (chart && chart.firstChild && this.barData.length !== 0) {
@@ -355,9 +331,13 @@ export class Tab3Page implements OnInit {
       }
       this.getCurrentDataDrawChart();
     }
+    setTimeout(() => {
+      this.disablePin = false;
+    }, 3000);
   }
 
   feelSad(): void {
+    this.disablePin = true;
     let chart = document.getElementById('lineChart');
 
     if (chart && chart.firstChild && this.barData.length !== 0) {
@@ -414,6 +394,9 @@ export class Tab3Page implements OnInit {
       }
       this.getCurrentDataDrawChart();
     }
+    setTimeout(() => {
+      this.disablePin = false;
+    }, 3000);
   }
 
  createTestData() {
@@ -444,7 +427,7 @@ export class Tab3Page implements OnInit {
    }
 
      let randomFeeling: number;
-     let testDay: number = this.today - 1;
+     let testDay: number = 1;
      let testMonth: number = this.month;
      let testDayMonth: string;
 
@@ -465,14 +448,13 @@ export class Tab3Page implements OnInit {
   this.getCurrentDataDrawChart();
 
    setTimeout(() => {
-     this.checked = false;
      document.getElementById('lineChart').remove();
      this.disablePin = false;
      this.barData.length = 0;
      this.barDataForTest.length = 0;
      console.log("Test Daten nach 0 setzen: " + JSON.stringify(this.barData));
      console.log("Daten nach 0 setzen: " + JSON.stringify(this.barData));
-   }, 5000);
+   }, 10000);
 
  }
 

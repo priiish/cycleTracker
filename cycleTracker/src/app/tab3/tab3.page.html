@@ -48,24 +48,24 @@
         </ion-col>
         <ion-row>
           <ion-col size="3">
-            <ion-button size= "small" color="success" id="good" (click)="feelGood()">
+            <ion-button disabled="{{disablePin}}" size= "small" color="success" id="good" (click)="feelGood()">
               <ion-icon name="happy-outline"></ion-icon>
             </ion-button>
           </ion-col>
           <ion-col size="3">
-            <ion-button size= "small" color="warning" id="ok" (click)="feelOkay()">
+            <ion-button disabled="{{disablePin}}" size= "small" color="warning" id="ok" (click)="feelOkay()">
               <ion-icon name="sad-outline"></ion-icon>
             </ion-button>
           </ion-col>
           <ion-col size="3">
-            <ion-button size= "small" color="danger" id="bad" (click)="feelSad()">
+            <ion-button disabled="{{disablePin}}" size= "small" color="danger" id="bad" (click)="feelSad()">
               <ion-icon name="skull-outline"></ion-icon>
             </ion-button>
           </ion-col>
           <ion-col size="3">
-            <ion-item>
-              <ion-toggle disabled="{{disablePin}}" (ionChange)="createTestData()" checked="{{checked}}"></ion-toggle>
-            </ion-item>
+            <ion-button disabled="{{disablePin}}" size= "small" color="light" id="test" (click)="createTestData()">
+              <ion-icon name="analytics-outline"></ion-icon>
+            </ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>
