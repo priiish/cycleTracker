@@ -33,7 +33,7 @@ export class Tab3Page implements OnInit {
   svg: any;
   g: any;
   today: number = new Date().getDate();
-  month: number = new Date().getMonth();
+  month: number = new Date().getMonth() + 1;
   private n: boolean;
   disablePin: boolean = false;
   checked: boolean = false;
@@ -72,7 +72,7 @@ export class Tab3Page implements OnInit {
  }
 
  initializeFilter() {
-   switch(this.selectedMonth) {
+   /*switch(this.selectedMonth) {
      case 1:
        this.selectedMonth = 1;
        break;
@@ -94,17 +94,18 @@ export class Tab3Page implements OnInit {
      case 7:
        this.selectedMonth = 7;
        break;
-   }
-   console.log(this.selectedMonth);
+   }*/
    let chart = document.getElementById('lineChart');
 
-   console.log(typeof this.barData[0].month);
+   /*console.log(typeof this.barData[0].month);
+   console.log(typeof this.barData[0].month.toLocaleString());
    console.log(typeof this.selectedMonth);
-
+   console.log(typeof monthNumber);*/
 
    if (this.selectedMonth != 0) {
      for (let i = 0; i < this.barData.length; i++) {
-       if (this.barData[i].month === this.selectedMonth) {
+       // @ts-ignore -> muss this.barData[i].month muss als String geparsed werden weil sonst Vergleich nicht funktioniert
+       if (this.barData[i].month.toLocaleString() === this.selectedMonth) {
          this.filteredBarData.push({
            date: this.barData[i].date,
            month: this.barData[i].month,
@@ -144,6 +145,30 @@ export class Tab3Page implements OnInit {
        }
        this.getCurrentDataDrawChart();
      }
+   } else if (this.selectedMonth == 0) {
+     this.barData = this.barDataSaved;
+     if (chart && chart.firstChild) {
+       console.log("Case 1");
+       chart.firstChild.removeChild(chart.firstChild.firstChild);
+       chart.removeChild(chart.firstChild);
+       chart.remove();
+
+       let node = document.createElement("div");
+       node.setAttribute("id", "lineChart");
+       document.getElementById('ion-card').firstElementChild.append(node);
+     } else if (chart) {
+       console.log("Case 2");
+       chart.remove();
+
+       let node = document.createElement("div");
+       node.setAttribute("id", "lineChart");
+       document.getElementById('ion-card').firstElementChild.append(node);
+     } else if (!chart) {
+       let node = document.createElement("div");
+       node.setAttribute("id", "lineChart");
+       document.getElementById('ion-card').firstElementChild.append(node);
+     }
+     this.getCurrentDataDrawChart();
    }
  }
 
