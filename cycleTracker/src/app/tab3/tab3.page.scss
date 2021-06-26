@@ -10,3 +10,12 @@ ion-toggle {
   --handle-width: 20px;
   --handle-height: 20px;
 }
+
+.axis--y.tick line{
+  visibility:hidden;
+}
+
+.axis--y path {
+  stroke: none;
+  opacity: 0;
+}

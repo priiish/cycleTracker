@@ -20,6 +20,8 @@ export class Tab3Page implements OnInit {
 
   barDataForTest: chartData[] = [];
   barData: chartData[] = [];
+  barDataSaved: chartData[] = [];
+  filteredBarData: chartData[] = [];
   //barData = [];
   title = 'Dein Befinden während deines aktuellen Zyklus';
   subtitle = 'Wie geht es dir heute?';
@@ -30,11 +32,12 @@ export class Tab3Page implements OnInit {
   y: any;
   svg: any;
   g: any;
-  today = new Date().getDate();
-  month = new Date().getMonth();
+  today: number = new Date().getDate();
+  month: number = new Date().getMonth();
   private n: boolean;
   disablePin: boolean = false;
   checked: boolean = false;
+  selectedMonth: number;
 
 
   /**
@@ -56,7 +59,6 @@ export class Tab3Page implements OnInit {
     }
   }
 
-
   getData(): chartData[] {
     return this.barData;
   }
@@ -67,6 +69,82 @@ export class Tab3Page implements OnInit {
    this.initAxes();
    this.drawAxes();
    this.drawChart();
+ }
+
+ initializeFilter() {
+   switch(this.selectedMonth) {
+     case 1:
+       this.selectedMonth = 1;
+       break;
+     case 2:
+       this.selectedMonth = 2;
+       break;
+     case 3:
+       this.selectedMonth = 3;
+       break;
+     case 4:
+       this.selectedMonth = 4;
+       break;
+     case 5:
+       this.selectedMonth = 5;
+       break;
+     case 6:
+       this.selectedMonth = 6;
+       break;
+     case 7:
+       this.selectedMonth = 7;
+       break;
+   }
+   console.log(this.selectedMonth);
+   let chart = document.getElementById('lineChart');
+
+   console.log(typeof this.barData[0].month);
+   console.log(typeof this.selectedMonth);
+
+
+   if (this.selectedMonth != 0) {
+     for (let i = 0; i < this.barData.length; i++) {
+       if (this.barData[i].month === this.selectedMonth) {
+         this.filteredBarData.push({
+           date: this.barData[i].date,
+           month: this.barData[i].month,
+           feeling: this.barData[i].feeling,
+           dateMonth: this.barData[i].date + "." + this.barData[i].month
+         });
+       }
+     }
+     console.log("Array gefiltert" + JSON.stringify(this.filteredBarData));
+
+     if (this.filteredBarData.length == 0) {
+       alert("Für diesen Monat gibt es leider keine Aufzeichnungen.");
+     } else {
+       this.barDataSaved = this.barData; // current barData saved in this.barDataSaved so it will not be overridden
+       this.barData = this.filteredBarData;
+
+       if (chart && chart.firstChild) {
+         console.log("Case 1");
+         chart.firstChild.removeChild(chart.firstChild.firstChild);
+         chart.removeChild(chart.firstChild);
+         chart.remove();
+
+         let node = document.createElement("div");
+         node.setAttribute("id", "lineChart");
+         document.getElementById('ion-card').firstElementChild.append(node);
+       } else if (chart) {
+         console.log("Case 2");
+         chart.remove();
+
+         let node = document.createElement("div");
+         node.setAttribute("id", "lineChart");
+         document.getElementById('ion-card').firstElementChild.append(node);
+       } else if (!chart) {
+         let node = document.createElement("div");
+         node.setAttribute("id", "lineChart");
+         document.getElementById('ion-card').firstElementChild.append(node);
+       }
+       this.getCurrentDataDrawChart();
+     }
+   }
  }
 
   init() {
@@ -97,7 +175,7 @@ export class Tab3Page implements OnInit {
       .attr('font-size', '30');
     this.g.append('g')
       .attr('class', 'axis axis--y')
-      .call(d3Axis.axisLeft(this.y).ticks(4))
+      .call(d3Axis.axisLeft(this.y).tickValues([]))
       .selectAll("text")
       .style("text-anchor", "end")
       .attr('font-size', '30')
