@@ -13,11 +13,11 @@ import {AnalysisService} from '../service/analysis.service';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
+
+  constructor(private popoverController: PopoverController, private storageService: StorageService, private analysisService: AnalysisService) { }
   /**
    * Popover initial in Tab2
    */
-  constructor(private popoverController: PopoverController, private storageService: StorageService, private analysisService: AnalysisService) { }
-
   async viewPopover() {
     const popover = await this.popoverController.create({
       component: PopoverViewerComponent,
@@ -37,7 +37,17 @@ export class Tab2Page {
   /**
    * Popover initial in Tab2 end
    */
+  /* Init function to dark-mode to tab2 */
+  ngOnInit(): void {
+    this.storageService.getSetting("isDarkmode").then((value) => {
+      if(value == 'true'){
+        document.body.classList.add('dark');
+      }else{
+        document.body.classList.remove('dark');
+      }
+    });
 
+  }
 
 
   logCurrentCycle() {

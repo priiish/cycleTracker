@@ -55,6 +55,17 @@ export class Tab3Page implements OnInit {
       this.drawAxes();
       this.drawChart();
     }
+
+    /* Init function to dark-mode to tab3 */
+    this.storageService.getSetting("isDarkmode").then((value) => {
+      if(value == 'true'){
+        document.body.classList.add('dark');
+      }else{
+        document.body.classList.remove('dark');
+      }
+    });
+
+
   }
 
   getData(): chartData[] {
