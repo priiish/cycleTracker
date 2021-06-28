@@ -21,10 +21,6 @@ const routes: Routes = [
   {
     path: 'settings',
     loadChildren: () => import('./popover-viewer/settings/settings.module').then( m => m.SettingsPageModule)
-  },
-  {
-    path: 'add-cycle',
-    loadChildren: () => import('./add-cycle/add-cycle.module').then( m => m.AddCyclePageModule)
   }
 
 
