@@ -1,6 +1,13 @@
 <ion-header>
   <ion-toolbar color='danger tint'>
-    <ion-title >Kalender</ion-title>
+    <ion-title horizontal="center">Kalender</ion-title>
+    <!-- PopOver Button -->
+    <ion-buttons slot="end">
+      <ion-button (click)="viewPopover()">
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <!-- PopOver Button End -->
   </ion-toolbar>
 </ion-header>
 

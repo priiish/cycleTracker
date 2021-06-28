@@ -1,12 +1,9 @@
-ion-toggle {
-  --background: white;
-  --background-checked: white;
 
-  --handle-background: grey;
-  --handle-background-checked: grey;
+.axis--y.tick line{
+  visibility:hidden;
+}
 
-  width: 50px;
-  height: 15px;
-  --handle-width: 20px;
-  --handle-height: 20px;
+.axis--y path {
+  stroke: none;
+  opacity: 0;
 }

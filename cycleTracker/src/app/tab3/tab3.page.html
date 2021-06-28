@@ -25,26 +25,47 @@
         <ion-row>
             <ion-card-subtitle class="ion-align-items-center">{{subtitle}}</ion-card-subtitle>
         </ion-row>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label>Filterung nach Monat:</ion-label>
+            <ion-select okText="Okay" cancelText="Cancel" (ionChange)="initializeFilter()"
+                        [(ngModel)]="selectedMonth">
+              <ion-select-option value="0">Alle</ion-select-option>
+              <ion-select-option value="1">Januar</ion-select-option>
+              <ion-select-option value="2">Februar</ion-select-option>
+              <ion-select-option value="3">März</ion-select-option>
+              <ion-select-option value="4">April</ion-select-option>
+              <ion-select-option value="5">Mai</ion-select-option>
+              <ion-select-option value="6">Juni</ion-select-option>
+              <ion-select-option value="7">Juli</ion-select-option>
+              <ion-select-option value="8">August</ion-select-option>
+              <ion-select-option value="9">September</ion-select-option>
+              <ion-select-option value="10">Oktober</ion-select-option>
+              <ion-select-option value="11">November</ion-select-option>
+              <ion-select-option value="12">Dezember</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
         <ion-row>
           <ion-col size="3">
-            <ion-button size= "small" color="success" id="good" (click)="feelGood()">
+            <ion-button disabled="{{disablePin}}" size= "small" color="success" id="good" (click)="feelGood()">
               <ion-icon name="happy-outline"></ion-icon>
             </ion-button>
           </ion-col>
           <ion-col size="3">
-            <ion-button size= "small" color="warning" id="ok" (click)="feelOkay()">
+            <ion-button disabled="{{disablePin}}" size= "small" color="warning" id="ok" (click)="feelOkay()">
               <ion-icon name="sad-outline"></ion-icon>
             </ion-button>
           </ion-col>
           <ion-col size="3">
-            <ion-button size= "small" color="danger" id="bad" (click)="feelSad()">
+            <ion-button disabled="{{disablePin}}" size= "small" color="danger" id="bad" (click)="feelSad()">
               <ion-icon name="skull-outline"></ion-icon>
             </ion-button>
           </ion-col>
           <ion-col size="3">
-            <ion-item>
-              <ion-toggle disabled="{{disablePin}}" (ionChange)="createTestData()" checked="{{checked}}"></ion-toggle>
-            </ion-item>
+            <ion-button disabled="{{disablePin}}" size= "small" color="light" id="test" (click)="createTestData()">
+              <ion-icon name="analytics-outline"></ion-icon>
+            </ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>
