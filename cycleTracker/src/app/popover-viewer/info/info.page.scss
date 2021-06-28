@@ -4,7 +4,12 @@ ion-slides {
 }
 ion-icon.slidericon{
   margin-top: 30px;
-  font-size: 60px;
+  font-size: 100px;
+  color:#2dd36f;
+}
+.slidericon__calendar {
+  margin-top: 30px;
+  font-size: 100px;
 }
 .swiper-slide {
   display: block;
@@ -35,3 +40,8 @@ p {
 p b {
   color: var(--ion-text-color, #000000);
 }
+
+.button__dang {
+  margin-top: 50px;
+}
+

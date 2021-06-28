@@ -1,11 +1,19 @@
 <ion-header>
   <ion-toolbar color='danger tint'>
     <ion-title horizontal="center">Kalender</ion-title>
+    <!-- PopOver Button -->
+    <ion-buttons slot="end">
+      <ion-button (click)="viewPopover()">
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <!-- PopOver Button End -->
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-calendar
+  <!-- Added Class and id to custom the calendar and choose the dark mode -->
+  <ion-calendar class = "calender" id = "calendar__edit"
        [(ngModel)]="date"
        [options]="options"
        [type]="type"

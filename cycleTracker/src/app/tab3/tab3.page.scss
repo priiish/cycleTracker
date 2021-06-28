@@ -1,0 +1,9 @@
+
+.axis--y.tick line{
+  visibility:hidden;
+}
+
+.axis--y path {
+  stroke: none;
+  opacity: 0;
+}
