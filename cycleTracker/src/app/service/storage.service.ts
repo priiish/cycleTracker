@@ -30,6 +30,13 @@ export class StorageService {
   }
 
   /**
+   * Returns the currently active cycle with a record (mood & mens) for each day.
+   */
+  getRecords(): Promise<Record[]> {
+    return this.storage.get('db');
+  }
+
+  /**
    * Updates a record in the database (adds, updates or deletes).
    */
   updateRecord(newRecord: Record): void {
