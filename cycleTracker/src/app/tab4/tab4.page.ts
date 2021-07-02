@@ -3,6 +3,7 @@ import { CalendarComponentOptions } from 'ion2-calendar';
 import {PopoverController} from "@ionic/angular";
 import {PopoverViewerComponent} from "../popover-viewer/popover-viewer.component";
 import {StorageService} from "../service/storage.service";
+import {Record} from '../model/record';
 
 
 @Component({
@@ -15,13 +16,18 @@ export class Tab4Page {
   type: 'string';
 
   options: CalendarComponentOptions = {
+<<<<<<< HEAD
     pickMode: 'range',
     monthPickerFormat: ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],
     weekdays: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+=======
+    monthPickerFormat: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+    weekdays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+>>>>>>> 84207edf0d54ed5437a7ccac5a2fc90c700b3301
     monthFormat: 'MM/YYYY'
   };
 
-  constructor(private popoverController: PopoverController,private storageService: StorageService) {
+  constructor(private popoverController: PopoverController, private storageService: StorageService) {
   }
  /* Initialize function to choose mod for calendar for tab4 */
   ngOnInit(): void {
@@ -35,6 +41,16 @@ export class Tab4Page {
       }
     });
 
+    // get all records
+    this.storageService.getRecords().then(records => {
+      console.log("Found " + records.length + "records");
+      for(let i = 0; i < records.length; i++) {
+        let record : Record = records[i];
+        console.log("Date: " + record.date);
+        console.log("Moon: " + record.mood);
+        console.log("Mens: " + record.mens);
+      }
+    });
   }
 
   onChange($event) {
