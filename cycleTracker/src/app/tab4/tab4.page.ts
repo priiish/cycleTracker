@@ -17,7 +17,7 @@ export class Tab4Page {
   options: CalendarComponentOptions = {
     pickMode: 'range',
     monthPickerFormat: ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],
-    weekdays: ['Mo','Di','Mi','Do','Fr','Sa','So'],
+    weekdays: ['So','Mo','Di','Mi','Do','Fr','Sa'],
     monthFormat: 'MM/YYYY'
   };
 
