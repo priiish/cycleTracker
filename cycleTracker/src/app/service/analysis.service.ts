@@ -10,7 +10,7 @@ export class AnalysisService {
   constructor(private storageService: StorageService) { }
 
   getAnalysisInfo(): Promise<AnalysisInfo> {
-    const today = this.storageService.getUnixDay();
+    const today = this.storageService.getUnixDay(Date.now());
 
     return Promise.all([this.getAverageCycleLength(), this.storageService.getCurrentCycle()]).then((values) => {
       let averageCycleLength : number = values[0];

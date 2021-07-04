@@ -1,0 +1,71 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title size="large">Tracken</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()" class= "closeButton">Fertig</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-item>
+    <ion-label class="label">Datum:</ion-label>
+    <ion-datetime [(ngModel)]="date" name="date" (ionChange)="selectRecord()"></ion-datetime>
+  </ion-item>
+
+  <ion-list>
+
+    <ion-radio-group allow-empty-selection [(ngModel)]="mens" (ionChange)="updateRecord()">
+
+      <ion-list-header>
+        <ion-label class="label">
+          Blutung:
+        </ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>Leicht</ion-label>
+        <ion-radio value="1" color="mens"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Mittel</ion-label>
+        <ion-radio value="2" color="mens"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Stark</ion-label>
+        <ion-radio value="3" color="mens"></ion-radio>
+      </ion-item>
+
+    </ion-radio-group>
+
+    <ion-radio-group allow-empty-selection [(ngModel)]="mood" (ionChange)="updateRecord()">
+      <ion-list-header>
+        <ion-label class="label">
+          Stimmung:
+        </ion-label>
+      </ion-list-header>
+
+      <ion-item >
+        <ion-label>Traurig</ion-label>
+        <ion-radio value="1" color="mood"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>PMS</ion-label>
+        <ion-radio value="2" color="mood"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Fröhlich</ion-label>
+        <ion-radio value="3" color="mood"></ion-radio>
+      </ion-item>
+
+    </ion-radio-group>
+
+  </ion-list>
+
+</ion-content>
+
+

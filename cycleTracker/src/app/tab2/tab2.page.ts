@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
-import {PopoverController} from '@ionic/angular';
+import {ModalController, PopoverController} from '@ionic/angular';
 import {PopoverViewerComponent} from '../popover-viewer/popover-viewer.component';
 import {StorageService} from '../service/storage.service';
 import {Record} from '../model/record';
 import {Mood} from '../model/mood.enum';
 import {Mens} from '../model/mens.enum';
 import {AnalysisService} from '../service/analysis.service';
+import {ModalPageComponent} from "../modal-page/modal-page.component";
 
 @Component({
   selector: 'app-tab2',
@@ -14,7 +15,8 @@ import {AnalysisService} from '../service/analysis.service';
 })
 export class Tab2Page {
 
-  constructor(private popoverController: PopoverController, private storageService: StorageService, private analysisService: AnalysisService) { }
+  constructor(private popoverController: PopoverController, private storageService: StorageService,
+              private analysisService: AnalysisService, private modalController: ModalController) { }
   /**
    * Popover initial in Tab2
    */
@@ -64,5 +66,29 @@ export class Tab2Page {
 
   logAnalysisInfo() {
     this.analysisService.getAnalysisInfo().then(value => console.log(value))
+  }
+
+  currentModal;
+
+  async createModal() {
+
+    const modal = await this.modalController.create({
+      component: ModalPageComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        'firstName': 'Douglas',
+        'lastName': 'Adams',
+        'middleInitial': 'N'
+      }
+    });
+
+    await modal.present();
+    this.currentModal = modal;
+  }
+
+  dismissModal() {
+    if (this.currentModal) {
+      this.currentModal.dismiss().then(() => { this.currentModal = null; });
+    }
   }
 }
