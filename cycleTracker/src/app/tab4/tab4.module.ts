@@ -9,6 +9,7 @@ import { Tab4PageRoutingModule } from './tab4-routing.module';
 import { Tab4Page } from './tab4.page';
 
 import { CalendarModule } from 'ion2-calendar';
+import {ModalPageModule} from "../modal-page/modal-page.module";
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { CalendarModule } from 'ion2-calendar';
     FormsModule,
     IonicModule,
     Tab4PageRoutingModule,
-    CalendarModule
+    CalendarModule,
+    ModalPageModule
   ],
   declarations: [Tab4Page]
 })

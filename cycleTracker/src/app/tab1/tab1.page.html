@@ -30,6 +30,14 @@
     <h3 class="text" style="text-align:center"> Nächste Menstruation in <br/> {{nextMenstruation}} Tagen</h3>
     <h3 class="text"> Fruchtbarkeit: {{riskOfPregnancy}}</h3>
   </div>
+
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="createModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
 </ion-content>
 
 

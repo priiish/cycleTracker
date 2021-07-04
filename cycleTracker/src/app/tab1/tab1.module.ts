@@ -7,6 +7,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import {ModalPageModule} from "../modal-page/modal-page.module";
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     FormsModule,
     ExploreContainerComponentModule,
     NgCircleProgressModule.forRoot(),
-    Tab1PageRoutingModule
+    Tab1PageRoutingModule,
+    ModalPageModule
   ],
   declarations: [Tab1Page]
 })
