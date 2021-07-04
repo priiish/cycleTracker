@@ -81,6 +81,11 @@ export class StorageService {
     return Math.floor(dateInMillis / MILLIS_PER_DAY);
   }
 
+  getDateForUnixDay(unixDay: number): Date {
+    const MILLIS_PER_DAY = 1000 * 60 * 60 * 24;
+    return new Date(unixDay * MILLIS_PER_DAY);
+  }
+
   private getCyclesFromStorage(): Promise<Cycle[]> {
     return this.storage.get('db').then(records => {
       records.sort((a, b) => (a.date > b.date) ? 1 : -1);
