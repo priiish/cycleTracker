@@ -12,18 +12,11 @@
 </ion-header>
 
 <ion-content>
-  <!-- Added Class and id to custom the calendar and choose the dark mode -->
-  <ion-calendar class = "calender" id = "calendar__edit"
-       [(ngModel)]="date"
+  <ion-calendar
+       [(ngModel)]="this.dateRange"
        [options]="options"
        [type]="type"
        [format]="'YYYY-MM-DD'">
   </ion-calendar>
-
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="createModal()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 
 </ion-content>

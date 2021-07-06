@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CalendarComponentOptions } from 'ion2-calendar';
+import { CalendarComponentOptions, CalendarModalOptions, DayConfig } from 'ion2-calendar';
 import {ModalController, PopoverController} from "@ionic/angular";
 import {PopoverViewerComponent} from "../popover-viewer/popover-viewer.component";
 import {StorageService} from "../service/storage.service";
@@ -8,21 +8,12 @@ import {ModalPageComponent} from "../modal-page/modal-page.component";
 import {AnalysisService} from "../service/analysis.service";
 
 
-
 @Component({
   selector: 'app-tab4',
   templateUrl: './tab4.page.html',
   styleUrls: ['./tab4.page.scss']
 })
 export class Tab4Page {
-  date: string;
-  type: 'string';
-
-  options: CalendarComponentOptions = {
-    monthPickerFormat: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
-    weekdays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
-    monthFormat: 'MM/YYYY'
-  };
 
   constructor(private popoverController: PopoverController, private storageService: StorageService,
               private modalController: ModalController) {
@@ -47,9 +38,26 @@ export class Tab4Page {
         console.log("Date: " + record.date);
         console.log("Moon: " + record.mood);
         console.log("Mens: " + record.mens);
+        console.log(Date.now());
       }
     });
   }
+
+  
+
+  dateRange: {from: Date; to: Date} = {
+    from:  new Date(Date.now() + 24 * 60 * 60 * 1000 *2),
+    to: new Date(Date.now() + 24 * 60 * 60 * 1000 * 5)
+  };
+  type: 'string';
+
+  options: CalendarComponentOptions = {
+    color: "danger",
+    pickMode: 'range',
+    monthPickerFormat: ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],
+    weekdays: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+    monthFormat: 'MM/YYYY'
+  };
 
   onChange($event) {
     console.log($event);

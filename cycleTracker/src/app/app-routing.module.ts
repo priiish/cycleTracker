@@ -21,7 +21,8 @@ const routes: Routes = [
   {
     path: 'settings',
     loadChildren: () => import('./popover-viewer/settings/settings.module').then( m => m.SettingsPageModule)
-  },  {
+  },
+  {
     path: 'tab2',
     loadChildren: () => import('./tab2/tab2.module').then( m => m.Tab2PageModule)
   }
