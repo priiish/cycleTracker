@@ -36,6 +36,11 @@ export class StorageService {
     return this.storage.get('db');
   }
 
+  getRecord(unixDay) : Promise<Record> {
+    return this.storage.get('db').then((records: Record[]) => {
+      return records.find(r => r.date == unixDay);
+    });
+  }
   /**
    * Updates a record in the database (adds, updates or deletes).
    */
@@ -66,13 +71,19 @@ export class StorageService {
     return this.storage.get(key);
   }
 
+
   /**
-   * Returns the current Unix day (e.g. 01.01.1970 = 0, 17.05.2021 = 18764).
+   * Returns the date as Unix day (e.g. 01.01.1970 = 0, 17.05.2021 = 18764).
    */
-  getUnixDay(): number {
+  getUnixDay(dateInMillis: number): number {
     // TODO currently in UTC timezone
     const MILLIS_PER_DAY = 1000 * 60 * 60 * 24;
-    return Math.floor(Date.now() / MILLIS_PER_DAY);
+    return Math.floor(dateInMillis / MILLIS_PER_DAY);
+  }
+
+  getDateForUnixDay(unixDay: number): Date {
+    const MILLIS_PER_DAY = 1000 * 60 * 60 * 24;
+    return new Date(unixDay * MILLIS_PER_DAY);
   }
 
   private getCyclesFromStorage(): Promise<Cycle[]> {
@@ -84,7 +95,7 @@ export class StorageService {
       let lastRecord: Record = null;
 
       const firstDate = records[0].date;
-      const lastDate = this.getUnixDay();
+      const lastDate = this.getUnixDay(Date.now());
       for(let i = firstDate; i <= lastDate; i++) {
         const record = records.find(r => r.date == i);
 
@@ -114,7 +125,7 @@ export class StorageService {
         console.log('Init storage: ', val);
       });
     });
-    console.log(this.getUnixDay());
+    console.log(this.getUnixDay(Date.now()));
   }
 
   // try to create function returning fake Record[] data

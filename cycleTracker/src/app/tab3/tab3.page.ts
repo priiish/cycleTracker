@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {PopoverController} from '@ionic/angular';
+import {ModalController, PopoverController} from '@ionic/angular';
 import {PopoverViewerComponent} from '../popover-viewer/popover-viewer.component';
 import { Platform } from '@ionic/angular';
 import {StorageService} from '../service/storage.service';
@@ -9,6 +9,8 @@ import * as d3 from 'd3-selection';
 import * as d3Scale from 'd3-scale';
 import * as d3Array from 'd3-array';
 import * as d3Axis from 'd3-axis';
+import {ModalPageComponent} from "../modal-page/modal-page.component";
+import {AnalysisService} from "../service/analysis.service";
 
 
 @Component({
@@ -42,7 +44,7 @@ export class Tab3Page implements OnInit {
    * Popover initial in Tab3
    */
   constructor(private popoverController: PopoverController, private _platform: Platform,
-              private storageService: StorageService) {
+              private storageService: StorageService, private modalController: ModalController) {
     this.width = 900 - this.margin.left - this.margin.right;
     this.height = 500 - this.margin.top - this.margin.bottom;
   }
@@ -486,4 +488,13 @@ export class Tab3Page implements OnInit {
 
   }
 
+  async createModal() {
+    const modal = await this.modalController.create({
+      component: ModalPageComponent,
+      componentProps: {
+        'date': '0'
+      }
+    });
+    await modal.present();
+  }
 }

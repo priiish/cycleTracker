@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController} from '@ionic/angular';
+import {ModalController, NavController} from '@ionic/angular';
 import {PopoverController} from '@ionic/angular';
 import {PopoverViewerComponent} from '../popover-viewer/popover-viewer.component';
 import {AnalysisService} from '../service/analysis.service';
@@ -9,6 +9,7 @@ import {Record} from '../model/record';
 import {Mood} from '../model/mood.enum';
 import {Mens} from '../model/mens.enum';
 import {Cycle} from '../model/cycle';
+import {ModalPageComponent} from "../modal-page/modal-page.component";
 
 
 @Component({
@@ -24,7 +25,8 @@ export class Tab1Page {
   cycleLength: number;
   riskOfPregnancy: string;
   // eslint-disable-next-line max-len
-  constructor(private popoverController: PopoverController ,private analysisService: AnalysisService,private storageService: StorageService) {
+  constructor(private popoverController: PopoverController ,private analysisService: AnalysisService,
+              private storageService: StorageService, private modalController: ModalController) {
     this.analysisService.getAnalysisInfo().then(value => {
       const cycleData = this.getCycleState(value.lastCycleStart, value.averageCycleLength);
       this.cycleLength = value.averageCycleLength;
@@ -103,4 +105,13 @@ export class Tab1Page {
 
   }
 
+  async createModal() {
+    const modal = await this.modalController.create({
+      component: ModalPageComponent,
+      componentProps: {
+        'date': '0'
+      }
+    });
+    await modal.present();
+  }
 }

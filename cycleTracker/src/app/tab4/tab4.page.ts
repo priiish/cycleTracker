@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { CalendarComponentOptions, CalendarModalOptions, DayConfig } from 'ion2-calendar';
-import {PopoverController} from "@ionic/angular";
+import {ModalController, PopoverController} from "@ionic/angular";
 import {PopoverViewerComponent} from "../popover-viewer/popover-viewer.component";
 import {StorageService} from "../service/storage.service";
 import {Record} from '../model/record';
+import {ModalPageComponent} from "../modal-page/modal-page.component";
+import {AnalysisService} from "../service/analysis.service";
 
 
 @Component({
@@ -13,7 +15,8 @@ import {Record} from '../model/record';
 })
 export class Tab4Page {
 
-  constructor(private popoverController: PopoverController, private storageService: StorageService) {
+  constructor(private popoverController: PopoverController, private storageService: StorageService,
+              private modalController: ModalController) {
   }
  /* Initialize function to choose mod for calendar for tab4 */
   ngOnInit(): void {
@@ -76,4 +79,14 @@ export class Tab4Page {
 
   }
   /* End PopOver-function */
+
+  async createModal() {
+    const modal = await this.modalController.create({
+      component: ModalPageComponent,
+      componentProps: {
+        'date': '0'
+      }
+    });
+    await modal.present();
+  }
 }
