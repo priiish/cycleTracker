@@ -16,6 +16,7 @@ import {ChartConfig} from "../model/chart-config";
 import {ModalPageComponent} from "../modal-page/modal-page.component";
 import {ModalController} from "@ionic/angular";
 import {BubbleChartItem} from "../model/bubble-chart-item";
+import {AnalysisService} from "../service/analysis.service";
 
 @Component({
   selector: 'app-tab2',
@@ -24,29 +25,38 @@ import {BubbleChartItem} from "../model/bubble-chart-item";
 })
 export class Tab2Page implements AfterViewChecked {
 
-  @Input()
+  averageCycleLength : number;
+  averagePeriodLength : number;
+
   cycles: Cycle[];
   chartConfigs: ChartConfig[] = [];
   title: string = "Aktueller Zyklus";
-  bars: any;
-
+  charts: Chart[] = [];
   dataLoaded: boolean = false;
 
 
-  constructor(private storageService: StorageService, private modalController: ModalController) {
+  constructor(private storageService: StorageService, private analysisService: AnalysisService, private modalController: ModalController) {
     Chart.register(...registerables);
   }
 
   ionViewWillEnter() {
     this.storageService.getCycles().then((cycles) => {
+      this.refreshCharts();
       this.cycles = cycles.reverse();
       console.log("Found " + this.cycles.length + " cycles:" , this.cycles);
 
       for(let i = 0; i < this.cycles.length; i++) {
-        let config = this.generateChartConfig(this.cycles[i]);
+        let isCurrentCycle = i === 0;
+        let config = this.generateChartConfig(this.cycles[i], isCurrentCycle);
         this.chartConfigs.push(config);
       }
+
       this.dataLoaded = true;
+    })
+
+    this.analysisService.getAnalysisInfo().then(e => {
+      this.averageCycleLength = Math.round(e.averageCycleLength);
+      this.averagePeriodLength = Math.round(e.averagePeriodLength);
     })
   }
 
@@ -60,25 +70,27 @@ export class Tab2Page implements AfterViewChecked {
    }
   }
 
-  generateChartConfig(cycle: Cycle) : ChartConfig {
+  refreshCharts() {
+    this.chartConfigs = [];
+    this.charts.forEach(e => e.clear());
+  }
+
+  generateChartConfig(cycle: Cycle, isCurrentCycle: boolean) : ChartConfig {
 
     let config : ChartConfig = new ChartConfig();
     config.mensData = [];
     config.moodData = [];
     config.mensColors = [];
     config.moodColors = [];
-    config.bars = [];
-    config.labels = [];
 
     config.xMax = Math.max(21, cycle.records.length);
     let bubbleWidth = 120 / config.xMax;
-    config.yMax = 2;
+    config.yMax = 2.0;
 
 
     for (let i = 0; i < cycle.records.length; i++) {
       let mensColor = '#FFFFFF';
       let moodColor = '#FFFFFF';
-      let bar = 1;
 
       switch (cycle.records[i].mens) {
         case 1:
@@ -94,7 +106,7 @@ export class Tab2Page implements AfterViewChecked {
           config.mensData.push(new BubbleChartItem(i, 0, bubbleWidth));
           break;
         default:
-          mensColor = getComputedStyle(document.documentElement).getPropertyValue('--ion-color-mens4');
+          mensColor = getComputedStyle(document.documentElement).getPropertyValue('--ion-color-graphgrey');
           config.mensData.push(new BubbleChartItem(i, 0, 1));
       }
 
@@ -112,20 +124,35 @@ export class Tab2Page implements AfterViewChecked {
           config.moodData.push(new BubbleChartItem(i, 1.2, bubbleWidth));
           break;
         default:
-          moodColor = getComputedStyle(document.documentElement).getPropertyValue('--ion-color-mood4');
+          moodColor = getComputedStyle(document.documentElement).getPropertyValue('--ion-color-graphgrey');
           config.moodData.push(new BubbleChartItem(i, 1.2, 1));
       }
 
       config.mensColors.push(mensColor);
       config.moodColors.push(moodColor);
-      config.bars.push(bar);
-      config.labels.push('')
     }
 
-    let startDate: Date = this.storageService.getDateForUnixDay(cycle.records[0].date);
-    let endDate: Date = this.storageService.getDateForUnixDay(cycle.records[cycle.records.length - 1].date);
-    config.title = "Zeitraum: " + startDate.getDate() + '.' + this.getMonth(startDate.getMonth()) + ' - ' + endDate.getDate() + '.' + this.getMonth(endDate.getMonth());
-    config.subtitle = "Zyklusdauer: " + cycle.records.length + " Tage";
+    if(isCurrentCycle) {
+
+      for (let i = cycle.records.length; i < 21; i++) {
+        let mensColor = getComputedStyle(document.documentElement).getPropertyValue('--ion-color-graphgrey');
+        config.mensData.push(new BubbleChartItem(i, 0, 1));
+        config.mensColors.push(mensColor);
+        let moodColor = getComputedStyle(document.documentElement).getPropertyValue('--ion-color-graphgrey');
+        config.moodData.push(new BubbleChartItem(i, 1.2, 1));
+        config.moodColors.push(moodColor);
+
+        let startDate: Date = this.storageService.getDateForUnixDay(cycle.records[0].date);
+        config.title = "Aktueller Zyklus - " + startDate.getDate() + '. ' + this.getMonth(startDate.getMonth()) + ' ' + startDate.getFullYear();
+        config.subtitle = "";
+      }
+    } else {
+      let startDate: Date = this.storageService.getDateForUnixDay(cycle.records[0].date);
+      let endDate: Date = this.storageService.getDateForUnixDay(cycle.records[cycle.records.length - 1].date);
+      config.title = startDate.getDate() + '. ' + this.getMonth(startDate.getMonth()) + ' ' + startDate.getFullYear() + ' - ' + endDate.getDate() + '. ' + this.getMonth(endDate.getMonth())+ ' ' + startDate.getFullYear();
+      config.subtitle = cycle.records.length + " Tage";
+    }
+
 
     return config;
   }
@@ -134,7 +161,7 @@ export class Tab2Page implements AfterViewChecked {
 
     let chart = document.getElementById(id) as ChartItem;
 
-    this.bars = new Chart(chart, {
+    this.charts.push(new Chart(chart, {
       type: 'bubble',
       data: {
         datasets: [{
@@ -149,7 +176,7 @@ export class Tab2Page implements AfterViewChecked {
         }]
       },
       options: {
-        aspectRatio: 10,
+        aspectRatio: 8,
         plugins: {
           legend: {
             display: false
@@ -172,59 +199,7 @@ export class Tab2Page implements AfterViewChecked {
           }
         }
       }
-    });
-  }
-
-  createBarChart(id: string, config: ChartConfig) {
-
-    let barChart = document.getElementById(id) as ChartItem;
-
-    this.bars = new Chart(barChart, {
-      type: 'bar',
-      data: {
-        labels: config.labels,
-        datasets: [{
-          label: 'a',
-          data: config.bars,
-          backgroundColor: config.mensColors, // array should have same number of elements as number of dataset
-          borderColor: config.mensColors,// array should have same number of elements as number of dataset
-          borderWidth: 1
-        },
-          {
-            label: 'b',
-            data: config.bars,
-            backgroundColor: config.moodColors, // array should have same number of elements as number of dataset
-            borderColor: config.moodColors,// array should have same number of elements as number of dataset
-            borderWidth: 1
-          }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            display: false
-          }
-        },
-        scales: {
-          xAxes: {
-            stacked: true,
-            grid: {
-              lineWidth : 0
-            }
-          },
-          yAxes: {
-            stacked: true,
-            grid: {
-              lineWidth : 0
-            },
-            ticks: {
-              display: false
-            }
-          }
-        }
-      },
-    });
-
+    }));
   }
 
   getMonth(num: number): string {
@@ -257,12 +232,15 @@ export class Tab2Page implements AfterViewChecked {
   }
 
   async createModal() {
-    const modal = await this.modalController.create({
+    let modal = await this.modalController.create({
       component: ModalPageComponent,
       componentProps: {
         'date': '0'
       }
     });
+
+    modal.onDidDismiss().then(() => this.ionViewWillEnter());
+
     await modal.present();
   }
 }

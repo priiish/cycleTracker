@@ -1,19 +1,61 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Analyse</ion-title>
+    <ion-title>
+      Analyse
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
+  <ion-grid style="padding-bottom: 0">
+    <ion-row>
+      <ion-card style="width: 43%">
+        <ion-card-content style="padding-left: 0; padding-right: 0">
+          <div style="font-size: 14px; text-align: center">
+            <b>
+              Ø Zyklusdauer
+            </b>
+            <b style="color: steelblue">
+              <br> {{averageCycleLength}} Tage
+            </b>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card style="width: 43%">
+        <ion-card-content style="padding-left: 0; padding-right: 0">
+          <div style="font-size: 14px; text-align: center;">
+            <b>
+              Ø Periodendauer
+            </b>
+            <b style="color: steelblue">
+              <br> {{averagePeriodLength}} Tage
+            </b>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+    </ion-row>
+  </ion-grid>
 
 
   <div *ngFor="let c of cycles, let i = index">
 
     <ion-card class="welcome-card">
-      <ion-card-header>
-        <ion-card-subtitle> {{chartConfigs[i].title}} </ion-card-subtitle>
-        <ion-card-subtitle> {{chartConfigs[i].subtitle}} </ion-card-subtitle>
+      <ion-card-header style="padding-bottom: 0;">
+        <ion-grid>
+          <ion-row>
+              <div class="ion-align-self-start" style="font-size:14px; font-family: Roboto, sans-serif">
+                <b> {{chartConfigs[i].title}} </b>
+              </div>
+
+              <div style="font-size:14px; color: steelblue; font-family: Roboto, sans-serif; margin-right: 0; margin-left: auto">
+                <b> {{chartConfigs[i].subtitle}} </b>
+              </div>
+
+          </ion-row>
+        </ion-grid>
       </ion-card-header>
       <ion-card-content>
         <canvas id="barChart{{i}}"></canvas>

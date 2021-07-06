@@ -47,7 +47,7 @@ export class ModalPageComponent implements OnInit {
     }
     let millis = new Date(this.date).getTime();
     let unixDay = this.storageService.getUnixDay(millis);
-    let record : Record = new Record(unixDay, parseInt(this.mens), parseInt(this.mood));
+    let record : Record = new Record(unixDay, parseInt(this.mood), parseInt(this.mens));
     console.log("Updated record: ", record);
     this.storageService.updateRecord(record);
   }
