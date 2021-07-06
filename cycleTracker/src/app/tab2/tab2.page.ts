@@ -1,14 +1,4 @@
-import {
-  AfterContentInit, AfterViewChecked,
-  AfterViewInit,
-  Component,
-  DoCheck,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
+import {AfterViewChecked, Component} from '@angular/core';
 import {Chart, ChartItem, registerables} from 'chart.js';
 import {Cycle} from "../model/cycle";
 import {StorageService} from "../service/storage.service";
@@ -26,8 +16,8 @@ import {PopoverViewerComponent} from "../popover-viewer/popover-viewer.component
 })
 export class Tab2Page implements AfterViewChecked {
 
-  averageCycleLength : number;
-  averagePeriodLength : number;
+  averageCycleLength: number;
+  averagePeriodLength: number;
 
   cycles: Cycle[];
   chartConfigs: ChartConfig[] = [];
@@ -45,9 +35,9 @@ export class Tab2Page implements AfterViewChecked {
     this.storageService.getCycles().then((cycles) => {
       this.refreshCharts();
       this.cycles = cycles.reverse();
-      console.log("Found " + this.cycles.length + " cycles:" , this.cycles);
+      console.log("Found " + this.cycles.length + " cycles:", this.cycles);
 
-      for(let i = 0; i < this.cycles.length; i++) {
+      for (let i = 0; i < this.cycles.length; i++) {
         let isCurrentCycle = i === 0;
         let config = this.generateChartConfig(this.cycles[i], isCurrentCycle);
         this.chartConfigs.push(config);
@@ -62,14 +52,14 @@ export class Tab2Page implements AfterViewChecked {
     })
   }
 
- ngAfterViewChecked() {
-   if(this.dataLoaded) {
-     this.dataLoaded = false;
+  ngAfterViewChecked() {
+    if (this.dataLoaded) {
+      this.dataLoaded = false;
 
-      for(let i = 0; i < this.cycles.length; i++) {
+      for (let i = 0; i < this.cycles.length; i++) {
         this.createBubbleChart('barChart' + i, this.chartConfigs[i]);
       }
-   }
+    }
   }
 
   refreshCharts() {
@@ -77,9 +67,9 @@ export class Tab2Page implements AfterViewChecked {
     this.charts.forEach(e => e.clear());
   }
 
-  generateChartConfig(cycle: Cycle, isCurrentCycle: boolean) : ChartConfig {
+  generateChartConfig(cycle: Cycle, isCurrentCycle: boolean): ChartConfig {
 
-    let config : ChartConfig = new ChartConfig();
+    let config: ChartConfig = new ChartConfig();
     config.mensData = [];
     config.moodData = [];
     config.mensColors = [];
@@ -134,7 +124,7 @@ export class Tab2Page implements AfterViewChecked {
       config.moodColors.push(moodColor);
     }
 
-    if(isCurrentCycle) {
+    if (isCurrentCycle) {
 
       for (let i = cycle.records.length; i < 21; i++) {
         let mensColor = getComputedStyle(document.documentElement).getPropertyValue('--ion-color-graphgrey');
@@ -151,7 +141,7 @@ export class Tab2Page implements AfterViewChecked {
     } else {
       let startDate: Date = this.storageService.getDateForUnixDay(cycle.records[0].date);
       let endDate: Date = this.storageService.getDateForUnixDay(cycle.records[cycle.records.length - 1].date);
-      config.title = startDate.getDate() + '. ' + this.getMonth(startDate.getMonth()) + ' ' + startDate.getFullYear() + ' - ' + endDate.getDate() + '. ' + this.getMonth(endDate.getMonth())+ ' ' + startDate.getFullYear();
+      config.title = startDate.getDate() + '. ' + this.getMonth(startDate.getMonth()) + ' ' + startDate.getFullYear() + ' - ' + endDate.getDate() + '. ' + this.getMonth(endDate.getMonth()) + ' ' + startDate.getFullYear();
       config.subtitle = cycle.records.length + " Tage";
     }
 
@@ -171,11 +161,11 @@ export class Tab2Page implements AfterViewChecked {
           data: config.mensData,
           backgroundColor: config.mensColors
         },
-        {
-          label: 'First Dataset',
-          data: config.moodData,
-          backgroundColor: config.moodColors
-        }]
+          {
+            label: 'First Dataset',
+            data: config.moodData,
+            backgroundColor: config.moodColors
+          }]
       },
       options: {
         aspectRatio: 8,
@@ -189,14 +179,14 @@ export class Tab2Page implements AfterViewChecked {
             display: false,
             max: config.xMax,
             grid: {
-              lineWidth : 0
+              lineWidth: 0
             }
           },
           yAxes: {
             display: false,
             max: config.yMax,
             grid: {
-              lineWidth : 0
+              lineWidth: 0
             },
           }
         }
@@ -205,7 +195,7 @@ export class Tab2Page implements AfterViewChecked {
   }
 
   getMonth(num: number): string {
-    switch(num) {
+    switch (num) {
       case 0:
         return "Januar";
       case 1:
@@ -253,7 +243,8 @@ export class Tab2Page implements AfterViewChecked {
       componentProps: {},
       translucent: true
     });
-    popover.onDidDismiss().then((result) => {});
+    popover.onDidDismiss().then((result) => {
+    });
     return await popover.present();
   }
 }
