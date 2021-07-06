@@ -14,9 +14,10 @@ import {Cycle} from "../model/cycle";
 import {StorageService} from "../service/storage.service";
 import {ChartConfig} from "../model/chart-config";
 import {ModalPageComponent} from "../modal-page/modal-page.component";
-import {ModalController} from "@ionic/angular";
+import {ModalController, PopoverController} from "@ionic/angular";
 import {BubbleChartItem} from "../model/bubble-chart-item";
 import {AnalysisService} from "../service/analysis.service";
+import {PopoverViewerComponent} from "../popover-viewer/popover-viewer.component";
 
 @Component({
   selector: 'app-tab2',
@@ -35,7 +36,8 @@ export class Tab2Page implements AfterViewChecked {
   dataLoaded: boolean = false;
 
 
-  constructor(private storageService: StorageService, private analysisService: AnalysisService, private modalController: ModalController) {
+  constructor(private storageService: StorageService, private analysisService: AnalysisService,
+              private modalController: ModalController, private popoverController: PopoverController) {
     Chart.register(...registerables);
   }
 
@@ -242,5 +244,16 @@ export class Tab2Page implements AfterViewChecked {
     modal.onDidDismiss().then(() => this.ionViewWillEnter());
 
     await modal.present();
+  }
+
+  async viewPopover() {
+    const popover = await this.popoverController.create({
+      component: PopoverViewerComponent,
+      cssClass: 'popover_setting',
+      componentProps: {},
+      translucent: true
+    });
+    popover.onDidDismiss().then((result) => {});
+    return await popover.present();
   }
 }
