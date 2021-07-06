@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage-angular';
 import {Record} from '../model/record';
-import * as $ from 'jquery';
 import {Cycle} from '../model/cycle';
 import {Mood} from '../model/mood.enum';
 import {Mens} from '../model/mens.enum';
@@ -91,25 +90,32 @@ export class StorageService {
       records.sort((a, b) => (a.date > b.date) ? 1 : -1);
 
       let result: Record[] = [];
-      const cycles: Cycle[] = [];
+      let cycles: Cycle[] = [];
       let lastRecord: Record = null;
+      let mensStopped : boolean = false;
 
       const firstDate = records[0].date;
       const lastDate = this.getUnixDay(Date.now());
       for(let i = firstDate; i <= lastDate; i++) {
         const record = records.find(r => r.date == i);
 
-        if (!lastRecord && record && result.length > 0) {
+        if (record && result.length > 0 && record.mens > 0 && mensStopped) {
           cycles.push(new Cycle(result));
           result = [];
+          mensStopped = false;
         }
 
         if(record) {
+          if(record.mens === 0) {
+            mensStopped = true;
+          }
           result.push(Record.createFromObject(record));
         } else {
+          mensStopped = true;
           result.push(new Record(i, Mood.none, Mens.none));
         }
         lastRecord = record;
+
       }
       cycles.push(new Cycle(result));
       return cycles;
@@ -118,24 +124,30 @@ export class StorageService {
 
   private initStorageFromJSON(): void {
     this.storage.create().then((val) => {
-      console.log('Create storage: ', val);
-    });
-    $.getJSON('../../assets/data.json', (json) => {
-      this.storage.set('db', json).then((val) => {
-        console.log('Init storage: ', val);
+
+      let records: Record[] = [];
+      records.push(new Record(18700, 1, 3));
+      records.push(new Record(18701, 1, 3));
+      records.push(new Record(18702, 1, 1));
+      records.push(new Record(18730, 2, 0));
+      records.push(new Record(18731, 2, 0));
+      records.push(new Record(18732, 1, 2));
+      records.push(new Record(18733, 1, 2));
+      records.push(new Record(18734, 1, 2));
+      records.push(new Record(18735, 1, 1));
+      records.push(new Record(18761, 2, 0));
+      records.push(new Record(18762, 2, 0));
+      records.push(new Record(18763, 1, 3));
+      records.push(new Record(18764, 1, 2));
+      records.push(new Record(18765, 1, 2));
+      records.push(new Record(18766, 1, 1));
+      records.push(new Record(18804, 1, 2));
+      records.push(new Record(18805, 1, 3));
+      records.push(new Record(18806, 1, 3));
+
+      this.storage.set('db', records).then((val) => {
+        console.log('Create storage: ', val);
       });
     });
-    console.log(this.getUnixDay(Date.now()));
   }
-
-  // try to create function returning fake Record[] data
- /* returnFakeData(): Record[] {
-    let data: Record[];
-    let begin: number = 1;
-    let okay = Mood;
-    let m = Mens;
-    data.fill(begin, okay, m);
-    return data;
-  }*/
-
 }
