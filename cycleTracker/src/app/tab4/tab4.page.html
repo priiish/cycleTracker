@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color='danger tint'>
+  <ion-toolbar>
     <ion-title horizontal="center">Kalender</ion-title>
     <!-- PopOver Button -->
     <ion-buttons slot="end">
@@ -18,5 +18,11 @@
        [type]="type"
        [format]="'YYYY-MM-DD'">
   </ion-calendar>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="createModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>

@@ -15,17 +15,21 @@ import {AnalysisService} from "../service/analysis.service";
 })
 export class Tab4Page {
 
-  cycleDate: Date[] = [];
+  dateMulti: Date[];
+  type: 'string';
 
-  getDateInString(milis){
-     return new Date(this.storageService.getDateForUnixDay(milis).getFullYear(),
-    this.storageService.getDateForUnixDay(milis).getMonth(),
-      this.storageService.getDateForUnixDay(milis).getDate())
+  options: CalendarComponentOptions = {
+    from: new Date(1),
+    color: "danger",
+    pickMode: 'multi',
+    monthPickerFormat: ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],
+    weekdays: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+    monthFormat: 'MM/YYYY'
   };
 
   constructor(private popoverController: PopoverController, private storageService: StorageService,
-              private modalController: ModalController) {
-  }
+              private modalController: ModalController) {}
+
  /* Initialize function to choose mod for calendar for tab4 */
   ngOnInit(): void {
     this.storageService.getSetting("isDarkmode").then((value) => {
@@ -40,36 +44,23 @@ export class Tab4Page {
 
     // get all records
     this.storageService.getRecords().then(records => {
-      console.log("Found " + records.length + "records");
+      let dates = [];
       for(let i = 0; i < records.length; i++) {
         let record : Record = records[i];
-        this.cycleDate.push(this.getDateInString(record.date));
-        console.log(this.getDateInString(record.date));
-        console.log("Date: " + record.date);
-        console.log("Moon: " + record.mood);
-        console.log("Mens: " + record.mens);
-        console.log(this.dateMulti[i]);
+        if(record.mens > 0) {
+          dates.push(this.getDateInString(record.date));
+        }
       }
-      this.dateMulti = this.cycleDate;
-      console.log(this.dateMulti)
+      this.dateMulti = dates;
+      console.log("DateMulti: ", this.dateMulti);
     });
   }
 
-  dateMulti: Date[] = this.cycleDate;
-  type: 'string';
-
-  options: CalendarComponentOptions = {
-    color: "danger",
-    pickMode: 'multi',
-    monthPickerFormat: ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],
-    weekdays: ['So','Mo','Di','Mi','Do','Fr','Sa'],
-    monthFormat: 'MM/YYYY'
+  getDateInString(millis) : Date {
+    let date : Date = this.storageService.getDateForUnixDay(millis);
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
   };
 
-  onChange($event) {
-    console.log($event);
-  }
-  /* PopOver function */
   async viewPopover() {
     const popover = await this.popoverController.create({
       component: PopoverViewerComponent,
@@ -77,15 +68,9 @@ export class Tab4Page {
       componentProps: {},
       translucent: true
     });
-
-    popover.onDidDismiss().then((result) => {
-
-    });
-
+    popover.onDidDismiss().then((result) => {});
     return await popover.present();
-
   }
-  /* End PopOver-function */
 
   async createModal() {
     const modal = await this.modalController.create({

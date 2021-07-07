@@ -230,7 +230,6 @@ export class Tab2Page implements AfterViewChecked {
         'date': '0'
       }
     });
-
     modal.onDidDismiss().then(() => this.ionViewWillEnter());
 
     await modal.present();
