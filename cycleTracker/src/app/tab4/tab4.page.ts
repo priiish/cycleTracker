@@ -15,6 +15,14 @@ import {AnalysisService} from "../service/analysis.service";
 })
 export class Tab4Page {
 
+  cycleDate: Date[] = [];
+
+  getDateInString(milis){
+     return new Date(this.storageService.getDateForUnixDay(milis).getFullYear(),
+    this.storageService.getDateForUnixDay(milis).getMonth(),
+      this.storageService.getDateForUnixDay(milis).getDate())
+  };
+
   constructor(private popoverController: PopoverController, private storageService: StorageService,
               private modalController: ModalController) {
   }
@@ -35,25 +43,24 @@ export class Tab4Page {
       console.log("Found " + records.length + "records");
       for(let i = 0; i < records.length; i++) {
         let record : Record = records[i];
+        this.cycleDate.push(this.getDateInString(record.date));
+        console.log(this.getDateInString(record.date));
         console.log("Date: " + record.date);
         console.log("Moon: " + record.mood);
         console.log("Mens: " + record.mens);
-        console.log(Date.now());
+        console.log(this.dateMulti[i]);
       }
+      this.dateMulti = this.cycleDate;
+      console.log(this.dateMulti)
     });
   }
 
-  
-
-  dateRange: {from: Date; to: Date} = {
-    from:  new Date(Date.now() + 24 * 60 * 60 * 1000 *2),
-    to: new Date(Date.now() + 24 * 60 * 60 * 1000 * 5)
-  };
+  dateMulti: Date[] = this.cycleDate;
   type: 'string';
 
   options: CalendarComponentOptions = {
     color: "danger",
-    pickMode: 'range',
+    pickMode: 'multi',
     monthPickerFormat: ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],
     weekdays: ['So','Mo','Di','Mi','Do','Fr','Sa'],
     monthFormat: 'MM/YYYY'
